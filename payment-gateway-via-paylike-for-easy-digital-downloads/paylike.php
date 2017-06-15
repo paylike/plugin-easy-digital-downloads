@@ -21,7 +21,7 @@ function edd_paylike_process_payment( $purchase_data ) {
 
     }
     Paylike\Client::setKey( $secret_key );
-    $payment_data = array(
+    $payment_data   = array(
         'price'        => $purchase_data['price'],
         'date'         => $purchase_data['date'],
         'user_email'   => $purchase_data['user_email'],
@@ -34,7 +34,7 @@ function edd_paylike_process_payment( $purchase_data ) {
         'gateway'      => 'paylike'
     );
     $has_error      = true;
-    $transaction_id = $_POST['edd_paylike_token'];
+    $transaction_id = sanitize_text_field( $_POST['edd_paylike_token'] );
     if ( edd_paylike_is_zero_decimal_currency() ) {
         $amount = $purchase_data['price'];
     } else {
@@ -119,38 +119,67 @@ function edd_paylike_add_settings( $settings ) {
             'type' => 'header'
         ),
         array(
-            'id'   => 'paylike_test_secret_key',
-            'name' => __( 'Test Secret Key', 'edd-paylike' ),
-            'desc' => __( 'Enter your test secret key, found in your Paylike Account Settings', 'edd-paylike' ),
-            'type' => 'text',
-            'size' => 'regular'
-        ),
-        array(
             'id'   => 'paylike_test_publishable_key',
-            'name' => __( 'Test Publishable Key', 'edd-paylike' ),
-            'desc' => __( 'Enter your test publishable key, found in your Paylike Account Settings', 'edd-paylike' ),
+            'name' => __( 'Test mode Public Key', 'edd-paylike' ),
+            'desc' => __( 'Get it from your Paylike dashboard', 'edd-paylike' ),
             'type' => 'text',
             'size' => 'regular'
         ),
         array(
-            'id'   => 'paylike_live_secret_key',
-            'name' => __( 'Live Secret Key', 'edd-paylike' ),
-            'desc' => __( 'Enter your live secret key, found in your Paylike Account Settings', 'edd-paylike' ),
+            'id'   => 'paylike_test_secret_key',
+            'name' => __( 'Test mode App Key', 'edd-paylike' ),
+            'desc' => __( 'Get it from your Paylike dashboard', 'edd-paylike' ),
             'type' => 'text',
             'size' => 'regular'
         ),
         array(
             'id'   => 'paylike_live_publishable_key',
-            'name' => __( 'Live Publishable Key', 'edd-paylike' ),
-            'desc' => __( 'Enter your live publishable key, found in your Paylike Account Settings', 'edd-paylike' ),
+            'name' => __( 'Live mode Public Key', 'edd-paylike' ),
+            'desc' => __( 'Get it from your Paylike dashboard', 'edd-paylike' ),
+            'type' => 'text',
+            'size' => 'regular'
+        ),
+        array(
+            'id'   => 'paylike_live_secret_key',
+            'name' => __( 'Live mode App Key', 'edd-paylike' ),
+            'desc' => __( 'Get it from your Paylike dashboard', 'edd-paylike' ),
             'type' => 'text',
             'size' => 'regular'
         ),
         array(
             'id'   => 'paylike_preapprove_only',
             'name' => __( 'Preapprove Only?', 'edd-paylike' ),
-            'desc' => __( 'Check this if you would like to preapprove payments but not charge until a later date. To capture use the buttons you will find in the payment history for all approval pending orders. The buttons are located in the "Preapproval" column. ', 'edd-paylike' ),
+            'desc' => __( 'Check this if you would like to preapprove payments but not charge until a later date.<br/> To capture a preapproved payment use the buttons you will find in the payment history for all approval pending orders.<br/> The buttons are located in the "Preapproval" column.', 'edd-paylike' ),
             'type' => 'checkbox'
+        ),
+        array(
+            'id'   => 'paylike_checkout_settings',
+            'name' => __( 'Paylike checkout mode', 'edd-paylike' ),
+            'type' => 'header'
+        ),
+        array(
+            'id'   => 'paylike_disable_checkout',
+            'name' => __( 'Disable Paylike Popup', 'edd-paylike' ),
+            'desc' => __( 'Check this if you would like to disable the Paylike popup window on the main checkout screen and use the embedded form.', 'edd-paylike' ),
+            'type' => 'checkbox'
+        ),
+        array(
+            'id'          => 'paylike_popup_title',
+            'name'        => __( 'Payment popup title', 'edd-paylike' ),
+            'desc'        => __( 'The text shown in the popup where the customer inserts the card details', 'edd-paylike' ),
+            'type'        => 'text',
+            'placeholder' => get_bloginfo( 'name' ),
+            'size'        => 'regular',
+            'std'         => get_bloginfo( 'name' ),
+        ),
+        array(
+            'id'          => 'paylike_method_title',
+            'name'        => __( 'Payment method title', 'edd-paylike' ),
+            'desc'        => '',
+            'type'        => 'text',
+            'size'        => 'regular',
+            'placeholder' => __( 'Credit Card', 'edd-paylike' ),
+            'std'         => __( 'Credit Card', 'edd-paylike' ),
         )
     );
     $paylike_settings = array( 'edd-paylike' => $paylike_settings );
@@ -217,7 +246,7 @@ function edd_paylike_payments_column_data( $value, $payment_id, $column_name ) {
         if ( ! $transaction_id || $captured_already ) {
             return $value;
         }
-        $nonce = wp_create_nonce( 'edd-paylike-process-preapproval' );
+        $nonce            = wp_create_nonce( 'edd-paylike-process-preapproval' );
         $preapproval_args = array(
             'payment_id' => $payment_id,
             'nonce'      => $nonce,
@@ -286,7 +315,7 @@ function edd_paylike_process_preapproved_cancel() {
     if ( 'preapproval' !== get_post_status( $payment_id ) ) {
         return;
     }
-    $amount = edd_paylike_get_proper_amount( $payment_id );
+    $amount     = edd_paylike_get_proper_amount( $payment_id );
     $secret_key = edd_is_test_mode() ? trim( $edd_options['paylike_test_secret_key'] ) : trim( $edd_options['paylike_live_secret_key'] );
     Paylike\Client::setKey( $secret_key );
     $data     = array(
@@ -327,8 +356,8 @@ function edd_paylike_charge_preapproved( $payment_id = 0 ) {
     }
     $secret_key = edd_is_test_mode() ? trim( $edd_options['paylike_test_secret_key'] ) : trim( $edd_options['paylike_live_secret_key'] );
     Paylike\Client::setKey( $secret_key );
-    $amount = edd_paylike_get_proper_amount( $payment_id );
-    $data = array(
+    $amount   = edd_paylike_get_proper_amount( $payment_id );
+    $data     = array(
         'amount'   => $amount,
         'currency' => edd_get_currency()
     );
@@ -393,15 +422,26 @@ function edd_paylike_js( $override = false ) {
             $paylike_vars = apply_filters( 'edd_paylike_js_vars', array(
                 'publishable_key'     => trim( $publishable_key ),
                 'is_ajaxed'           => edd_is_ajax_enabled() ? 'true' : 'false',
-                'currency'            => edd_get_currency(),
-                'locale'              => get_locale(),
                 'is_zero_decimal'     => edd_paylike_is_zero_decimal_currency() ? 'true' : 'false',
-                'store_name'          => get_bloginfo( 'name' ),
+                'checkout'            => edd_get_option( 'paylike_disable_checkout' ) ? 'false' : 'true',
+                'store_name'          => edd_get_option( 'paylike_popup_title', get_bloginfo( 'name' ) ),
                 'submit_text'         => __( 'Next', 'edd-paylike' ),
-                'no_key_error'        => __( 'Paylike publishable key missing. Please enter your publishable key in Settings.', 'edd-paylike' ),
+                'no_key_error'        => __( 'The Paylike Public Key is missing. Insert it in Settings -> Payment Gateways -> Paylike', 'edd-paylike' ),
                 'error_prefix'        => __( 'The following error occurred: ', 'edd-paylike' ),
                 'payment_description' => edd_paylike_get_cart_description(),
+                'currency'            => edd_get_currency(),
+                'locale'              => get_locale(),
+                //'orderId'             => '',
+                'products'            => edd_paylike_get_cart_products(),
+                //'name'                => '',
+                //'email'               => '',
+                //'telephone'           => '',
+                //'address'           => '',
                 'customer_ip'         => edd_paylike_get_client_ip(),
+                'platform'            => 'WordPress',
+                'platform_version'    => get_bloginfo( 'version' ),
+                'ecommerce'           => 'easy-digital-downloads',
+                'version'             => EDD_PAYLIKE_VERSION
             ) );
             wp_localize_script( 'edd-paylike-js', 'edd_paylike_vars', $paylike_vars );
 
@@ -428,7 +468,7 @@ function edd_paylike_admin_js( $payment_id = 0 ) {
                 if ('refunded' == $(this).val()) {
 
                     // Localize refund label
-                    var edd_paylike_refund_charge_label = "<?php echo esc_js( __( 'Refund Charge in Paylike', 'edd-paylike' ) ); ?>";
+                    var edd_paylike_refund_charge_label = "<?php echo esc_js( __( 'Refund Transaction in Paylike', 'edd-paylike' ) ); ?>";
 
                     $(this).parent().parent().append('<input type="checkbox" id="edd_refund_in_paylike" name="edd_refund_in_paylike" value="1" style="margin-top: 0;" />');
                     $(this).parent().parent().append('<label for="edd_refund_in_paylike">' + edd_paylike_refund_charge_label + '</label>');
@@ -579,17 +619,46 @@ function edd_paylike_get_client_ip() {
 }
 
 /**
+ * Returns a titles array for the products.
+ * @access      public
+ * @since       1.0.0
+ * @return      string
+ */
+function edd_paylike_get_cart_products() {
+    $downloads_to_send = array();
+    $downloads         = edd_get_cart_contents();
+    if ( ! empty( $downloads ) ) {
+        foreach ( $downloads as $download ) {
+            $downloads_to_send[] = array(
+                'id'       => $download['id'],
+                'name'     => the_title_attribute( array(
+                    'echo' => false,
+                    'post' => $download['id']
+                ) ),
+                'quantity' => $download['quantity']
+            );
+        }
+    }
+
+    return $downloads_to_send;
+    //return edd_paylike_get_cart_description();
+}
+
+/**
  * Returns a description for the cart.
  * @access      public
  * @since       1.0.0
- * @return      bool
+ * @return      string
  */
 function edd_paylike_get_cart_description() {
     $summary   = '';
     $downloads = edd_get_cart_contents();
     if ( ! empty( $downloads ) ) {
         foreach ( $downloads as $download ) {
-            $summary .= get_the_title( $download['id'] ) . ', ';
+            $summary .= the_title_attribute( array(
+                    'echo' => false,
+                    'post' => $download['id']
+                ) ) . ', ';
         }
         $summary = substr( $summary, 0, - 2 );
     }
@@ -677,12 +746,12 @@ add_action( 'edd_purchase_link_end', 'edd_paylike_purchase_link_output', 99999, 
 function edd_paylike_straight_to_gateway_data( $purchase_data ) {
     if ( isset( $_REQUEST['edd_paylike_token'] ) ) {
         global $edd_paylike_is_buy_now;
-        $edd_paylike_is_buy_now = true;
+        $edd_paylike_is_buy_now   = true;
         $purchase_data['gateway'] = 'paylike';
         $_REQUEST['edd-gateway']  = 'paylike';
         if ( isset( $_REQUEST['edd_email'] ) ) {
-            $purchase_data['user_info']['email'] = $_REQUEST['edd_email'];
-            $purchase_data['user_email']         = $_REQUEST['edd_email'];
+            $purchase_data['user_info']['email'] = sanitize_email( $_REQUEST['edd_email'] );
+            $purchase_data['user_email']         = sanitize_email( $_REQUEST['edd_email'] );
         }
 
     }
@@ -695,6 +764,11 @@ add_filter( 'edd_straight_to_gateway_purchase_data', 'edd_paylike_straight_to_ga
  * Returns script for buy now button
  */
 function edd_paylike_get_link_form_script( $download_id, $email ) {
+    // such that we get rid of additional markup
+    $product_title = the_title_attribute( array(
+        'echo' => false,
+        'post' => $download_id
+    ) );
     ?>
     <script>
         <?php ob_start(); ?>
@@ -762,8 +836,18 @@ function edd_paylike_get_link_form_script( $download_id, $email ) {
                     locale: edd_paylike_vars.locale,
                     description: edd_paylike_vars.payment_description,
                     custom: {
+                        //orderId: '',
+                        products: '<?php echo esc_js( $product_title ); ?>',
+                        //name: name,
                         email: '<?php echo esc_js( $email ); ?>',
-                        customerIP: edd_paylike_vars.customer_ip
+                        //telephone: '',
+                        //address: '',
+                        customerIP: edd_paylike_vars.customer_ip,
+                        locale: edd_paylike_vars.locale,
+                        platform: edd_paylike_vars.platform,
+                        platform_version: edd_paylike_vars.platform_version,
+                        ecommerce: edd_paylike_vars.ecommerce,
+                        version: edd_paylike_vars.version
                     }
                 };
 
