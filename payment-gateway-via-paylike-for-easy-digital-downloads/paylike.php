@@ -891,9 +891,14 @@ function edd_paylike_get_link_form_script( $download_id, $email ) {
  */
 function edd_paylike_get_response_error( $response ) {
     $error = array();
-    foreach ( $response as $field_error ) {
-        $error[] = $field_error['field'] . ': ' . $field_error['message'];
+    if($response && is_array($response)){
+        foreach ( $response as $field_error ) {
+            $error[] = $field_error['field'] . ': ' . $field_error['message'];
+        }
+    } else {
+        $error[] = "Unknown error";
     }
+
     $error_message = implode( " ", $error );
 
     return $error_message;
