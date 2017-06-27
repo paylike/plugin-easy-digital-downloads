@@ -2,8 +2,8 @@
 Contributors: ionut.calara
 Tags: credit card, gateway, paylike, easy-digital-downloads, edd
 Requires at least: 4.4
-Tested up to: 4.7
-Stable tag: 1.1
+Tested up to: 4.8
+Stable tag: 1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -91,6 +91,13 @@ To capture a preapproved payment use the buttons you will find in the payment hi
 4. Payment screen via popup
 
 == Changelog ==
+
+= 1.2 =
+* Updated api wrapper
+* Updated tested up to tag
+* Added settings link
+* Added currencies multiplier crosscheck
+* Fixed javascript being hooked when gateway was not valid for frontend
 
 = 1.1 =
 * Updated error message handler
