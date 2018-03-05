@@ -64,7 +64,8 @@
             amount = $('.edd_cart_total .edd_cart_amount').data('total');
 
         amount = Math.ceil(amount * edd_paylike_vars.multiplier);
-
+        //automated testing purposes.
+        window.paylikeAmount=amount;
 
         return {
             title: edd_paylike_vars.store_name,
@@ -76,18 +77,18 @@
                 //orderId: '',
                 products: edd_paylike_vars.products,
                 customer: {
-                    first_name: $('#edd-first').val(),
-                    last_name: $('#edd-last').val(),
+                    name: $('#edd-first').val() + ' ' + $('#edd-last').val(),
                     email: email,
                     ip: edd_paylike_vars.customer_ip
-                    //telephone: '',
-                    //address: '',
                 },
-                locale: edd_paylike_vars.locale,
-                platform: edd_paylike_vars.platform,
-                platform_version: edd_paylike_vars.platform_version,
-                ecommerce: edd_paylike_vars.ecommerce,
-                version: edd_paylike_vars.version
+                platform: {
+                    name: 'WordPress',
+                    version: edd_paylike_vars.platform_version,
+                },
+                ecommerce: {
+                    name: 'Easy Digital Downloads',
+                    version: edd_paylike_vars.version
+                }
             }
         }
     }
@@ -156,7 +157,7 @@
         $body.on('edd_gateway_loaded', function (event, payment_mode) {
             console.log('tet');
             console.log(payment_mode);
-            if (payment_mode === 'paylike') {
+            if (payment_mode === 'paylike' && $cardInput.length > 0) {
                 Paylike.assistNumber($('input.card-number')[0]);
                 Paylike.assistExpiry($('input.card-expiry')[0]);
             }

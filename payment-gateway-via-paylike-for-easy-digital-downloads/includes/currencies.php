@@ -205,7 +205,7 @@ if ( ! function_exists( 'get_paylike_currency' ) ) {
 					'code'     => 'CLP',
 					'currency' => 'Chilean peso',
 					'numeric'  => '152',
-					'exponent' => 2,
+					'exponent' => 0,
 				),
 			'CNY' =>
 				array(
@@ -976,7 +976,7 @@ if ( ! function_exists( 'get_paylike_currency' ) ) {
 					'code'     => 'UGX',
 					'currency' => 'Ugandan shilling',
 					'numeric'  => '800',
-					'exponent' => 2,
+					'exponent' => 0,
 				),
 			'USD' =>
 				array(
@@ -1093,7 +1093,7 @@ if ( ! function_exists( 'get_paylike_currency' ) ) {
 	}
 }
 
-if ( ! function_exists( 'get_paylike_multiplier' ) ) {
+if ( ! function_exists( 'get_paylike_currency_multiplier' ) ) {
 	/**
 	 * Return the number that should be used to compute cents from the total amount
 	 *
