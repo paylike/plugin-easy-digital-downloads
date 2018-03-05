@@ -1093,7 +1093,7 @@ if ( ! function_exists( 'get_paylike_currency' ) ) {
 	}
 }
 
-if ( ! function_exists( 'get_paylike_multiplier' ) ) {
+if ( ! function_exists( 'get_paylike_currency_multiplier' ) ) {
 	/**
 	 * Return the number that should be used to compute cents from the total amount
 	 *
