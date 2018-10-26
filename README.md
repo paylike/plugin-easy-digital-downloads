@@ -8,7 +8,9 @@ Released under the GPL V3 license: https://opensource.org/licenses/GPL-3.0
 
 ## Supported Easy Digital Downloads versions
 
-- \>= 2.7.5
+* The plugin has been tested with most versions of EDD at every iteration. We recommend using the latest version of Easy digital downloads, but if that is not possible for some reason, test the plugin with your EDD version and it would probably function properly. 
+* Easy digital download
+ version last tested on: *2.9.8*
 
 ## Installation
 
