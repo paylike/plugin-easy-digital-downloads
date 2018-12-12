@@ -230,8 +230,13 @@
       <!-- ignore the stylesheet from being processed -->
     </xsl:template>
   </xsl:stylesheet>
-  <testcase name="EDD\EddQuickTest" status="done" start="2018-12-11T16:49:05+0000" end="2018-12-11T16:49:53+0000" result="passed">
-    <test name="testGeneralFunctions" status="done" start="2018-12-11T16:49:05+0000" end="2018-12-11T16:49:20+0000" result="passed"/>
-    <test name="testUsdPaymentBeforeOrderInstant" status="done" start="2018-12-11T16:49:21+0000" end="2018-12-11T16:49:53+0000" result="passed"/>
+  <testcase name="EDD\EddFullTest" status="done" start="2018-12-12T13:19:25+0000" end="2018-12-12T13:22:19+0000" result="passed">
+    <test name="testGeneralFunctions" status="done" start="2018-12-12T13:19:26+0000" end="2018-12-12T13:19:40+0000" result="passed"/>
+    <test name="testUsdPaymentPopupInstant" status="done" start="2018-12-12T13:19:41+0000" end="2018-12-12T13:20:07+0000" result="passed"/>
+    <test name="testUsdPaymentEmbedInstant" status="done" start="2018-12-12T13:20:08+0000" end="2018-12-12T13:20:30+0000" result="passed"/>
+    <test name="testUsdPaymentEmbedDelayed" status="done" start="2018-12-12T13:20:31+0000" end="2018-12-12T13:20:55+0000" result="passed"/>
+    <test name="testUsdPaymentPopupDelayed" status="done" start="2018-12-12T13:20:56+0000" end="2018-12-12T13:21:22+0000" result="passed"/>
+    <test name="testDkkPaymentPopupDelayed" status="done" start="2018-12-12T13:21:23+0000" end="2018-12-12T13:21:51+0000" result="passed"/>
+    <test name="testJpyPaymentPopupDelayed" status="done" start="2018-12-12T13:21:52+0000" end="2018-12-12T13:22:19+0000" result="passed"/>
   </testcase>
 </testcases>

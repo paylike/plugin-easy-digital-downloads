@@ -22,7 +22,7 @@ class EddFullTest extends AbstractTestCase {
 	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
 	 */
 	public function testGeneralFunctions() {
-		$this->runner = new WoocommerceRunner( $this );
+		$this->runner = new EddRunner( $this );
 		$this->runner->ready( array(
 				'settings_check' => true,
 			)
@@ -34,31 +34,11 @@ class EddFullTest extends AbstractTestCase {
 	 * @throws \Facebook\WebDriver\Exception\TimeOutException
 	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
 	 */
-	public function testUsdPaymentAfterOrderInstant() {
-		$this->runner = new WoocommerceRunner( $this );
+	public function testUsdPaymentPopupInstant() {
+		$this->runner = new EddRunner( $this );
 		$this->runner->ready( array(
-				'capture_mode'           => 'instant',
-				'checkout_mode'          => 'after_order',
-				'exclude_manual_payment' => true,
-			)
-		);
-	}
-
-	/**
-	 *
-	 * @throws NoSuchElementException
-	 * @throws \Facebook\WebDriver\Exception\TimeOutException
-	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
-	 */
-	public function testUsdPaymentBeforeOrderInstant() {
-		$this->runner = new WoocommerceRunner( $this );
-		$this->runner->ready( array(
-				'first_test'             => true,
-				'currency'               => 'USD',
-				'stop_emails'            => true,
-				'capture_mode'           => 'instant',
-				'checkout_mode'          => 'before_order',
-				'exclude_manual_payment' => false,
+				'checkout_mode' => 'popup',
+				'capture_mode'  => 'instant',
 			)
 		);
 	}
@@ -68,12 +48,11 @@ class EddFullTest extends AbstractTestCase {
 	 * @throws \Facebook\WebDriver\Exception\TimeOutException
 	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
 	 */
-	public function testUsdPaymentBeforeOrderDelayed() {
-		$this->runner = new WoocommerceRunner( $this );
+	public function testUsdPaymentEmbedInstant() {
+		$this->runner = new EddRunner( $this );
 		$this->runner->ready( array(
-				'capture_mode'           => 'delayed',
-				'checkout_mode'          => 'before_order',
-				'exclude_manual_payment' => true,
+				'checkout_mode' => 'embed',
+				'capture_mode'  => 'instant',
 			)
 		);
 	}
@@ -83,49 +62,60 @@ class EddFullTest extends AbstractTestCase {
 	 * @throws \Facebook\WebDriver\Exception\TimeOutException
 	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
 	 */
-	public function testUsdPaymentAfterOrderDelayed() {
-		$this->runner = new WoocommerceRunner( $this );
+	public function testUsdPaymentEmbedDelayed() {
+		$this->runner = new EddRunner( $this );
 		$this->runner->ready( array(
-				'capture_mode'           => 'delayed',
-				'checkout_mode'          => 'before_order',
-				'exclude_manual_payment' => false,
+				'checkout_mode' => 'embed',
+				'capture_mode'  => 'delayed',
 			)
 		);
 	}
-
-	/**
-	 *
-	 * @throws NoSuchElementException
-	 * @throws \Facebook\WebDriver\Exception\TimeOutException
-	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
-	 */
-	public function testDkkPaymentBeforeOrderInstant() {
-		$this->runner = new WoocommerceRunner( $this );
-		$this->runner->ready( array(
-				'currency'               => 'DKK',
-				'capture_mode'           => 'instant',
-				'checkout_mode'          => 'before_order',
-				'exclude_manual_payment' => false,
-			)
-		);
-	}
-
 
 	/**
 	 * @throws NoSuchElementException
 	 * @throws \Facebook\WebDriver\Exception\TimeOutException
 	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
 	 */
-	public function testJpyPaymentBeforeOrderDelayed() {
-		$this->runner = new WoocommerceRunner( $this );
+	public function testUsdPaymentPopupDelayed() {
+		$this->runner = new EddRunner( $this );
 		$this->runner->ready( array(
-				'currency'               => 'JPY',
-				'capture_mode'           => 'delayed',
-				'checkout_mode'          => 'before_order',
-				'stop_emails'            => true,
-				'exclude_manual_payment' => false,
+				'checkout_mode' => 'popup',
+				'capture_mode'  => 'delayed',
 			)
 		);
 	}
+
+	/**
+	 * @throws NoSuchElementException
+	 * @throws \Facebook\WebDriver\Exception\TimeOutException
+	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
+	 */
+	public function testDkkPaymentPopupDelayed() {
+		$this->runner = new EddRunner( $this );
+		$this->runner->ready( array(
+				'checkout_mode' => 'popup',
+				'capture_mode'  => 'delayed',
+				'currency'      => 'Danish Krone',
+				'currency_iso'  => 'DKK'
+			)
+		);
+	}
+
+	/**
+	 * @throws NoSuchElementException
+	 * @throws \Facebook\WebDriver\Exception\TimeOutException
+	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
+	 */
+	public function testJpyPaymentPopupDelayed() {
+		$this->runner = new EddRunner( $this );
+		$this->runner->ready( array(
+				'checkout_mode' => 'popup',
+				'capture_mode'  => 'delayed',
+				'currency'      => 'Japanese Yen',
+				'currency_iso'  => 'JPY'
+			)
+		);
+	}
+
 
 }

@@ -26,7 +26,7 @@ class TestHelper {
 	/**
 	 * TestHelper constructor.
 	 *
-	 * @param EddFullTest|EddQuickTest $test
+	 * @param EddFullTest|EddQuickTest|EddVersionLogTest $test
 	 */
 	public function __construct( $test ) {
 		$this->main_test = $test;

@@ -115,6 +115,7 @@ class EddRunner extends TestHelper {
 	public function changeMode() {
 		$this->goToPage( 'wp-admin/edit.php?post_type=download&page=edd-settings&tab=gateways&section=edd-paylike' );
 		$this->checkoutMode();
+		$this->captureMode();
 		$this->submitAdmin();
 	}
 
@@ -133,10 +134,12 @@ class EddRunner extends TestHelper {
 	public function selectOrder() {
 		$this->goToPage( 'wp-admin/edit.php?post_type=download&page=edd-payment-history', '.column-details' );
 		$this->click( "//*//a[text()='View Order Details']" );
-		$this->waitForElement( '.edd-payment-note' );
-		$text     = $this->pluckElement( '.edd-payment-note p', 2 )->getText();
-		$messages = explode( PHP_EOL, $text );
-		$this->main_test->assertContains( 'Captured Preapproved Transaction Successful', $messages[1], "Captured" );
+		if ( $this->capture_mode == 'delayed' ) {
+			$this->waitForElement( '.edd-payment-note' );
+			$text     = $this->pluckElement( '.edd-payment-note p', 2 )->getText();
+			$messages = explode( PHP_EOL, $text );
+			$this->main_test->assertContains( 'Captured Preapproved Transaction Successful', $messages[1], "Captured" );
+		}
 
 	}
 
@@ -193,31 +196,6 @@ class EddRunner extends TestHelper {
 
 	}
 
-
-	/**
-	 *
-	 *
-	 */
-	public function verifyTransactionNote() {
-		$this->waitForElement( '.note_content p' );
-		$text     = $this->pluckElement( '.note_content p', 1 )->getText();
-		$messages = explode( "\n", $text );
-		if ( $this->capture_mode == 'instant' ) {
-			$this->main_test->assertEquals( 'Paylike capture complete.', $messages[0], "Checking order note for capture." );
-		} elseif ( $this->capture_mode == 'delayed' ) {
-			$this->main_test->assertEquals( 'Paylike authorization complete.', $messages[0], "Checking order note for authorization." );
-		}
-	}
-
-	/**
-	 *
-	 *
-	 */
-	public function verifyOrder() {
-		$this->goToPage( 'wp-admin/edit.php?post_type=shop_order', '.order-view' );
-		$this->click( '.order-view' );
-		$this->verifyTransactionNote();
-	}
 
 	/**
 	 *
@@ -282,17 +260,21 @@ class EddRunner extends TestHelper {
 	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
 	 */
 	public function refund() {
-		$this->selectValue( 'edd-payment-status','refunded' );
+		$this->selectValue( 'edd-payment-status', 'refunded' );
 		$this->waitForElement( '#edd_refund_in_paylike' );
-		$this->checkbox('#edd_refund_in_paylike');
-		$this->click('.edd-order-update-box #major-publishing-actions input');
+		$this->checkbox( '#edd_refund_in_paylike' );
+		$this->click( '.edd-order-update-box #major-publishing-actions input' );
 		$this->waitForElement( '#setting-error-edd-payment-updated' );
 		$text = $this->getText( '#setting-error-edd-payment-updated' );
 		$text = explode( '.', $text );
 		$this->main_test->assertEquals( 'The payment has been successfully updated', $text[0], "Refund" );
 		$this->click( $this->findChild( '.notice-dismiss', $this->findElements( '#setting-error-edd-payment-updated' )[0] ) );
 		$this->waitElementDisappear( '#setting-error-edd-payment-updated' );
-		$text     = $this->pluckElement( '.edd-payment-note p', 5 )->getText();
+		$index = 5;
+		if ( $this->capture_mode == 'instant' ) {
+			$index = 3;
+		}
+		$text = $this->pluckElement( '.edd-payment-note p', $index )->getText();
 		$this->main_test->assertContains( 'Transaction refunded in Paylike', $text, "Refunded" );
 	}
 

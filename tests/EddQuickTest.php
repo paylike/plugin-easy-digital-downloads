@@ -37,7 +37,8 @@ class EddQuickTest extends AbstractTestCase {
 	public function testUsdPaymentBeforeOrderInstant() {
 		$this->runner = new EddRunner( $this );
 		$this->runner->ready( array(
-				'checkout_mode' => 'embed',
+				'checkout_mode' => 'popup',
+				'capture_mode' => 'instant',
 			)
 		);
 	}
