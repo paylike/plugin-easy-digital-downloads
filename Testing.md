@@ -7,6 +7,7 @@ As you can see the plugin is bundled with selenium testing on this repository. Y
 
 * A edd installation is required, in which you need to have the twenty seventeen theme installed. 
 * You need to have the default product from edd which is "A Music Album"
+* You also need the "Disable Emails" plugin
 
 ## Getting started
 
