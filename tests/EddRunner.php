@@ -312,7 +312,7 @@ class EddRunner extends TestHelper {
 		$this->goToPage( 'wp-admin/plugins.php' );
 		$this->waitForElement( '#the-list' );
 		$woo     = $this->getPluginVersion( 'easy-digital-downloads/easy-digital-downloads.php' );
-		$paylike = $this->getPluginVersion( 'payment-gateway-via-paylike-for-easy-digital-downloads/edd-paylike.php' );
+		$paylike = $this->getPluginVersion( 'edd-paylike-payment-gateway/edd-paylike.php' );
 
 		return [ 'ecommerce' => $woo, 'plugin' => $paylike ];
 	}
