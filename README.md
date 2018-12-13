@@ -1,4 +1,4 @@
-# Easy Digital Downloads plugin for Paylike
+# Easy Digital Downloads plugin for Paylike [![Build Status](https://travis-ci.org/paylike/plugin-easy-digital-downloads.svg?branch=master)](https://travis-ci.org/paylike/plugin-easy-digital-downloads)
 
 This plugin is *not* developed or maintained by Paylike but kindly made
 available by a user.
@@ -7,8 +7,10 @@ Released under the GPL V3 license: https://opensource.org/licenses/GPL-3.0
 
 
 ## Supported Easy Digital Downloads versions
-
-- \>= 2.7.5
+ 
+ [![Last succesfull test](https://log.derikon.ro/api/v1/log/read?tag=edd&view=svg&label=EDD&key=ecommerce&background=2794da)](https://log.derikon.ro/api/v1/log/read?tag=edd&view=html)
+ 
+ *The plugin has been tested with most versions of EDD at every iteration. We recommend using the latest version of Easy digital downloads, but if that is not possible for some reason, test the plugin with your EDD version and it would probably function properly.* 
 
 ## Installation
 

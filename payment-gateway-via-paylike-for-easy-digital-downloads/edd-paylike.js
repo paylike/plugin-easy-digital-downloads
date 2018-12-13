@@ -55,6 +55,16 @@
     })();
 
 
+    function set_window_amount() {
+        // set amount variable for automated testing
+        var amount = $('.edd_cart_total .edd_cart_amount').data('total');
+
+        amount = Math.ceil(amount * edd_paylike_vars.multiplier);
+        //automated testing purposes.
+        window.paylikeAmount = amount;
+    }
+
+
     if (!edd_paylike_vars.publishable_key) {
         alert(edd_paylike_vars.no_key_error);
     }
@@ -64,8 +74,6 @@
             amount = $('.edd_cart_total .edd_cart_amount').data('total');
 
         amount = Math.ceil(amount * edd_paylike_vars.multiplier);
-        //automated testing purposes.
-        window.paylikeAmount=amount;
 
         return {
             title: edd_paylike_vars.store_name,
@@ -163,6 +171,7 @@
             }
         });
 
+        set_window_amount();
         // non ajaxed
         $body.on('click', '#edd_purchase_form input[type="submit"], #edd_profile_editor_form input[type="submit"]', function (event) {
 
