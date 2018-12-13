@@ -95,20 +95,6 @@ class EddRunner extends TestHelper {
 	}
 
 	/**
-	 * @param $status
-	 *
-	 * @throws \Facebook\WebDriver\Exception\NoSuchElementException
-	 * @throws \Facebook\WebDriver\Exception\UnexpectedTagNameException
-	 */
-	public function moveOrderToStatus( $status ) {
-		$this->click( '#select2-order_status-container' );
-		$this->click( "//*[contains(text(), '" . $status . "')]" );
-		if ( ! $this->isSelected( '#order_status', $status ) ) {
-			$this->moveOrderToStatus( $status );
-		}
-	}
-
-	/**
 	 * @throws \Facebook\WebDriver\Exception\NoSuchElementException
 	 * @throws \Facebook\WebDriver\Exception\TimeOutException
 	 */
@@ -143,20 +129,6 @@ class EddRunner extends TestHelper {
 
 	}
 
-
-	/**
-	 * @throws NoSuchElementException
-	 * @throws \Facebook\WebDriver\Exception\TimeOutException
-	 */
-	public function logInFrontend() {
-		$this->elementExists( '.woocommerce-form-login .lost_password' );
-		$this->click( '.woocommerce-form-login .showlogin' );
-		$this->elementExists( '.woocommerce-form-login .form-row' );
-		$this->type( '#username', 'ionut.plati@gmail.com' );
-		$this->type( '#password', 'admin#522' );
-		$this->click( '.woocommerce-form-login .form-row  input[type="submit"]' );
-	}
-
 	/**
 	 */
 	public function pay() {
@@ -183,16 +155,6 @@ class EddRunner extends TestHelper {
 			$this->pay();
 		}
 		$this->waitForElement( "//*[text() = 'Thank you for your purchase! ']" );
-
-	}
-
-	/**
-	 * @throws \Facebook\WebDriver\Exception\NoSuchElementException
-	 * @throws \Facebook\WebDriver\Exception\TimeOutException
-	 */
-	public function paymentPage() {
-		$this->waitForElement( ".wc-order-status a" );
-		$this->click( ".wc-order-status a" );
 
 	}
 
@@ -272,7 +234,7 @@ class EddRunner extends TestHelper {
 		$this->waitElementDisappear( '#setting-error-edd-payment-updated' );
 		$index = 5;
 		if ( $this->capture_mode == 'instant' ) {
-			$index = 3;
+			$index = 4;
 		}
 		$text = $this->pluckElement( '.edd-payment-note p', $index )->getText();
 		$this->main_test->assertContains( 'Transaction refunded in Paylike', $text, "Refunded" );
@@ -313,16 +275,6 @@ class EddRunner extends TestHelper {
 			}
 		}
 	}
-
-	/**
-	 * @param $page
-	 *
-	 * @return string
-	 */
-	private function helperGetUrl( $page ) {
-		return $this->base_url . '/' . $page;
-	}
-
 
 	/**
 	 * @throws \Facebook\WebDriver\Exception\NoSuchElementException
@@ -404,7 +356,7 @@ class EddRunner extends TestHelper {
 	 */
 	private function orderCleanup() {
 		try {
-			$this->goToPage( 'wp-admin/edit.php?post_type=download&page=edd-payment-history' );
+			$this->goToPage( 'wp-admin/edit.php?post_type=download&page=edd-payment-history&status=preapproval' );
 			$this->click( '#cb-select-all-1' );
 			$this->selectValue( '#bulk-action-selector-top', 'delete' );
 			$this->click( '#doaction' );

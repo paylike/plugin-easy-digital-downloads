@@ -203,7 +203,9 @@ $plugin = plugin_basename( __FILE__ );
 add_filter( "plugin_action_links_$plugin", 'edd_paylike_add_settings_link' );
 
 if ( ! class_exists( 'Paylike\Client' ) ) {
-	require_once EDD_PAYLIKE_PLUGIN_DIR . '/includes/Paylike/Client.php';
+	require_once EDD_PAYLIKE_PLUGIN_DIR . '/vendor/autoload.php';
 }
-require_once EDD_PAYLIKE_PLUGIN_DIR . '/includes/currencies.php';
 require_once EDD_PAYLIKE_PLUGIN_DIR . '/paylike.php';
+require_once EDD_PAYLIKE_PLUGIN_DIR . '/settings.php';
+require_once EDD_PAYLIKE_PLUGIN_DIR . '/helpers.php';
+require_once EDD_PAYLIKE_PLUGIN_DIR . '/popup.php';
