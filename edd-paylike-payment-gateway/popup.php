@@ -18,6 +18,7 @@ function edd_paylike_js( $override = false ) {
 			$publishable_key = edd_get_option( 'paylike_live_publishable_key', '' );
 		}
 		if ( ( edd_is_checkout() || $override ) ) {
+			wp_enqueue_style( 'edd-paylike-css', EDD_PAYLIKE_PLUGIN_URL . 'edd-paylike.css' );
 			wp_enqueue_script( 'paylike-js', 'https://sdk.paylike.io/3.js', '', '3.0', true );
 			wp_enqueue_script( 'edd-paylike-js', EDD_PAYLIKE_PLUGIN_URL . 'edd-paylike.js', array(
 				'jquery',
