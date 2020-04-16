@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Paylike Payment Gateway
 Plugin URL: https://wordpress.org/plugins/edd-paylike-payment-gateway/
 Description: Allow customers to pay with credit cards via the Paylike gateway in your Easy Digital Downloads store.
-Version: 1.5
+Version: 1.5.1
 Author: Derikon Development
 Author URI: https://derikon.com/
 Text Domain: edd-paylike
@@ -23,7 +23,7 @@ if ( ! defined( 'EDD_PAYLIKE_PLUGIN_DIR' ) ) {
 if ( ! defined( 'EDD_PAYLIKE_PLUGIN_URL' ) ) {
 	define( 'EDD_PAYLIKE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
-define( 'EDD_PAYLIKE_VERSION', '1.5.0' );
+define( 'EDD_PAYLIKE_VERSION', '1.5.1' );
 /**
  * Plugin activation
  * @access      public
@@ -125,7 +125,7 @@ function edd_paylike_credit_card_form( $echo = true ) {
 	<?php do_action( 'edd_paylike_before_cc_fields' ); ?>
 
 	<fieldset id="edd_cc_fields">
-		<legend><?php _e( 'Credit Card Info', 'edd-paylike' ); ?></legend>
+		<legend><?php _e( 'Credit card', 'edd-paylike' ); ?></legend>
 		<?php if ( is_ssl() ) : ?>
 			<div id="edd_secure_site_wrapper">
 				<span class="padlock">
@@ -145,7 +145,7 @@ function edd_paylike_credit_card_form( $echo = true ) {
 			</label>
 			<span class="edd-description"><?php _e( 'The (typically) 16 digits on the front of your credit card.', 'edd-paylike' ); ?></span>
 			<input type="text" pattern="[0-9]{4}  [0-9]{4}  [0-9]{4}  .*" id="card_number"
-					class="card-number edd-input required" value="4100 0000 0000 0000" placeholder="0000 0000 0000 0000"
+					class="card-number edd-input required" value="" placeholder="0000 0000 0000 0000"
 					required/>
 		</p>
 		<p id="edd-card-cvc-wrap">
@@ -154,7 +154,7 @@ function edd_paylike_credit_card_form( $echo = true ) {
 				<span class="edd-required-indicator">*</span>
 			</label>
 			<span class="edd-description"><?php _e( 'The 3 digit (back) or 4 digit (front) value on your card.', 'edd-paylike' ); ?></span>
-			<input type="text" pattern="[0-9]{3,4}" value="123" size="4" autocomplete="off" id="card_cvc"
+			<input type="text" pattern="[0-9]{3,4}" value="" size="4" autocomplete="off" id="card_cvc"
 					class="card-cvc card-code edd-input required" placeholder="***"/>
 		</p>
 		<?php do_action( 'edd_paylike_before_cc_expiration' ); ?>
@@ -164,7 +164,7 @@ function edd_paylike_credit_card_form( $echo = true ) {
 				<span class="edd-required-indicator">*</span>
 			</label>
 			<span class="edd-description"><?php _e( 'The date your credit card expires, typically on the front of the card.', 'edd-paylike' ); ?></span>
-			<input type="text" id="card-expiry" value="12/21" class="card-expiry edd-input required"
+			<input type="text" id="card-expiry" value="" class="card-expiry edd-input required"
 					placeholder="MM  /  YY"
 					pattern="[0-9]{2}  /  ([0-9]{2}|[0-9]{4})" required/>
 		</p>
