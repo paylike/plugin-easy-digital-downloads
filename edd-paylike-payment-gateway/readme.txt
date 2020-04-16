@@ -3,7 +3,7 @@ Contributors: ionut.calara
 Tags: credit card, gateway, paylike, easy-digital-downloads, edd
 Requires at least: 4.4
 Tested up to: 5.3
-Stable tag: 1.5
+Stable tag: 1.5.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,8 +19,7 @@ Without a doubt, Easy Digital Downloads is a complete eCommerce solution for Wor
 
 Countries supported by Paylike.
 
-Notice that this has nothing to do with accepting cards. Cards from all over
-the world is accepted.
+Notice that this has nothing to do with accepting cards. Cards from all over the world is accepted.
 
 You will need a registered company or citizenship from one of these countries:
 
@@ -91,6 +90,9 @@ To capture a preapproved payment use the buttons you will find in the payment hi
 4. Payment screen via popup
 
 == Changelog ==
+
+= 1.5.1 =
+Remove placeholders from card form
 
 = 1.5 =
 Add tds support
