@@ -76,9 +76,13 @@
 		amount = Math.ceil( amount * edd_paylike_vars.multiplier );
 
 		var args = {
+			test: ('test' == edd_paylike_vars.test_mode) ? (true) : (false),
 			title: edd_paylike_vars.store_name,
-			currency: edd_paylike_vars.currency,
-			amount: amount,
+			amount: {
+				currency: edd_paylike_vars.currency,
+				exponent: Number(edd_paylike_vars.exponent),
+				value: amount
+			},
 			locale: edd_paylike_vars.locale,
 			description: edd_paylike_vars.payment_description,
 			custom: {
@@ -93,8 +97,8 @@
 					name: 'WordPress',
 					version: edd_paylike_vars.platform_version,
 				},
-				ecommerce: {
-					name: 'Easy Digital Downloads',
+				ecommerce: 'Easy Digital Downloads',
+				paylike_plugin: {
 					version: edd_paylike_vars.version
 				}
 			}
@@ -268,10 +272,10 @@
 
 					checkout_modal_shown = true;
 
-					var paylike = Paylike( edd_paylike_vars.publishable_key );
+					var paylike = Paylike( {key: edd_paylike_vars.publishable_key} );
 					var args = edd_paylike_get_args();
 
-					paylike.popup( args,
+					paylike.pay( args,
 						function( err, res ) {
 							var $purchaseBtn = jQuery( '#edd-purchase-button' );
 							// we need to close no matter what.
@@ -308,6 +312,3 @@
 	} );
 
 } )( jQuery, window, document );
-
-
-

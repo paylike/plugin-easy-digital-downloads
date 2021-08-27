@@ -2,8 +2,8 @@
 Contributors: ionut.calara
 Tags: credit card, gateway, paylike, easy-digital-downloads, edd
 Requires at least: 4.4
-Tested up to: 5.3
-Stable tag: 1.5.1
+Tested up to: 5.8
+Stable tag: 1.6.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -90,6 +90,10 @@ To capture a preapproved payment use the buttons you will find in the payment hi
 4. Payment screen via popup
 
 == Changelog ==
+
+= 1.6.0 =
+Upgarded js SDK version from v3 to v10
+Modified logic to work with v10
 
 = 1.5.1 =
 Remove placeholders from card form
