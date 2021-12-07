@@ -10,8 +10,8 @@ Released under the GPL V3 license: https://opensource.org/licenses/GPL-3.0
 
  [![Last succesfull test](https://log.derikon.ro/api/v1/log/read?tag=edd&view=svg&label=EDD&key=ecommerce&background=2794da)](https://log.derikon.ro/api/v1/log/read?tag=edd&view=html)
 
- Last Easy Digital Downloads version tested on: 2.11
- Wordpress version 5.8
+ Last Easy Digital Downloads version tested on: 2.11.3.1
+ Wordpress version 5.8.2
 
  *The plugin has been tested with most versions of EDD at every iteration. We recommend using the latest version of Easy digital downloads, but if that is not possible for some reason, test the plugin with your EDD version and it would probably function properly.*
 
@@ -39,9 +39,9 @@ Under the Easy Digital Downloads paylike settings, you can:
 
  There are three transaction operations which you can do:
 1. Capture
-    - in order to capture a preapproved payment, you can click "Process Preapproved" on the payment history page for that specific order in the WordPress admin.
+    - in order to capture a preapproved payment, you can click **"Process Preapproved"** on the payment history page for that specific order in the WordPress admin.
 2. Void
-    - the only way we void a transaction is when this is preapproved, but not "captured". the button for "Cancel Preapproval" is on payment history page.
+    - the only way we void a transaction is when this is preapproved, but not "captured". the button for **"Cancel Preapproval"** is on **`Payment history`** page.
 3. Refund
     - in order to refund, you need to have a order with the status "Completed", move it to "Refunded", check the option that appears below "Refund in Paylike", and click update.
 
