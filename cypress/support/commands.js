@@ -55,8 +55,8 @@
         var password = Cypress.env('ENV_ADMIN_PASS');
     }
 
-    cy.get(usernameInputSelector).type(username);
-    cy.get(passwordInputSelector).type(`${password}{enter}`);
+    cy.get(usernameInputSelector).clear().type(username);
+    cy.get(passwordInputSelector).clear().type(`${password}{enter}`);
 });
 
 /**
