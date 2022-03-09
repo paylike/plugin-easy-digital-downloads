@@ -12,18 +12,18 @@ export var TestMethods = {
     RemoteVersionLogUrl: Cypress.env('REMOTE_LOG_URL'),
 
     /** Construct some variables to be used bellow. */
-    ShopName: 'ubercart8',
+    ShopName: 'edd',
     PaylikeName: 'paylike',
-    ShopAdminUrl: '/edit.php?post_type=download&page=edd-settings&tab=general&section=currency', // used for change currency
-    PaymentMethodsAdminUrl: '/store/config/payment/method/paylike',
-    OrdersPageAdminUrl: '/store/orders/view',
-    ModulesAdminUrl: '/modules',
+    ShopCurrencyAdminUrl: '/edit.php?post_type=download&page=edd-settings&tab=general&section=currency',
+    PaymentMethodAdminUrl: '/edit.php?post_type=download&page=edd-settings&tab=gateways&section=edd-paylike',
+    OrdersPageAdminUrl: '/edit.php?post_type=download&page=edd-payment-history',
+    ModulesAdminUrl: '/plugins.php',
 
     /**
      * Login to admin backend account
      */
     loginIntoAdminBackend() {
-        cy.loginIntoAccount('input[name=name]', 'input[name=pass]', 'admin');
+        cy.loginIntoAccount('input[id=user_login]', 'input[id=user_pass]', 'admin');
     },
 
     /**
@@ -32,16 +32,16 @@ export var TestMethods = {
      */
     changePaylikeCaptureMode(captureMode) {
         /** Go to payments page, and select Paylike. */
-        cy.goToPage(this.PaymentMethodsAdminUrl);
+        cy.goToPage(this.PaymentMethodAdminUrl);
 
         /** Change capture mode & save. */
         if ('Instant' === captureMode) {
-            cy.get('#edit-settings-txn-type-auth-capture').click();
+            cy.get('input[id="edd_settings[paylike_preapprove_only]"]').uncheck();
         } else if ('Delayed' === captureMode) {
-            cy.get('#edit-settings-txn-type-authorize').click();
+            cy.get('input[id="edd_settings[paylike_preapprove_only]"]').check();
         }
 
-        cy.get('#edit-submit').click();
+        cy.get('#submit').click();
     },
 
     /**
@@ -68,61 +68,35 @@ export var TestMethods = {
      * @param {String} currency
      */
     makePaymentFromFrontend(currency) {
-        /** Go to store frontend. */
-        cy.goToPage(this.StoreUrl);
+        /** Go to store frontend - specific product page. */
+        cy.goToPage(this.StoreUrl + '/downloads/a-sample-digital-download/');
 
-        /** Add to cart random product. */
-        var randomInt = PaylikeTestHelper.getRandomInt(/*max*/ 1);
-        cy.get('.button.js-form-submit.form-submit').eq(randomInt).click();
-        cy.wait(1000);
+        /** Purchase product. */
+        cy.get('a[data-action="edd_add_to_cart"]').click();
 
         /** Proceed to checkout. */
-        cy.get('#edit-checkout--2').click();
+        cy.get('a.edd_go_to_checkout').click();
 
-        /** Select saved address. */
-        /** Right now, selection of a saved address has no effect to autofill fields. */
-        // cy.get('#edit-panes-delivery-select-address').select('0');
-
-        /** Fill in shipping address fields. */
-        cy.get('#edit-panes-delivery-first-name').clear().type('firstName');
-        cy.get('#edit-panes-delivery-last-name').clear().type('lastName');
-        cy.get('#edit-panes-delivery-street1').clear().type('street');
-        cy.get('#edit-panes-delivery-city').clear().type('city');
-        cy.get('#edit-panes-delivery-zone').select(1);
-        cy.get('#edit-panes-delivery-postal-code').clear().type('000000');
-
-        /** Select that billing address to be the sam as shipping. */
-        /** This can be enabled by default from ubercart settings. */
-        cy.get('#edit-panes-billing-copy-address').click();
         cy.wait(1000);
 
         /** Get & Verify amount. */
-        cy.get('.line-item-total .price').then(($totalAmount) => {
+        cy.get('span.edd_cart_amount').first().then(($totalAmount) => {
             cy.window().then(win => {
                 var expectedAmount = PaylikeTestHelper.filterAndGetAmountInMinor($totalAmount, currency);
-                var orderTotalAmount = Number(win.drupalSettings.uc_paylike.config.amount.value);
+                var orderTotalAmount = Number(win.paylikeAmount);
                 expect(expectedAmount).to.eq(orderTotalAmount);
             });
         });
 
-        /** Choose Paylike (if we have more than one payment methods). */
-        // cy.get(`input[id*="edit-panes-payment-payment-method-${this.PaylikeName}"]`).click();
-
         /** Show paylike popup. */
-        cy.get(`input[id*="edit-panes-payment-details-${this.PaylikeName}"]`).click();
+        cy.get('#edd-purchase-button').click();
 
         /**
          * Fill in Paylike popup.
          */
          PaylikeTestHelper.fillAndSubmitPaylikePopup();
 
-        /** Go to order confirmation. */
-        cy.get('#edit-continue', {timeout: 8000}).click();
-
-        /** Check if order was paid (edit-submit button be visible) and submit it. */
-        cy.get('.button.button--primary.js-form-submit.form-submit', {timeout: 8000}).should('be.visible').click();
-
-        cy.get('h1.page-title', {timeout: 8000}).should('be.visible').contains('Order complete');
+        cy.get('.entry-content > p', {timeout: 8000}).should('be.visible').contains('Thank you for your purchase!');
     },
 
     /**
@@ -133,9 +107,6 @@ export var TestMethods = {
     processOrderFromAdmin(paylikeAction, partialAmount = false) {
         /** Go to admin orders page. */
         cy.goToPage(this.OrdersPageAdminUrl);
-
-        // /** Click on first (latest in time) order from orders table. */
-        cy.get('.dropbutton > .view > a').first().click();
 
         /**
          * Take specific action on order
@@ -149,56 +120,26 @@ export var TestMethods = {
      * @param {Boolean} partialAmount
      */
      paylikeActionOnOrderAmount(paylikeAction, partialAmount = false) {
-        /** Go to paylike transaction page. */
-        cy.get(`a[href*="/credit/${this.PaylikeName}"]`).click();
-
         switch (paylikeAction) {
             case 'capture':
-                if (partialAmount) {
-                    cy.get('#edit-amount').then($editAmountInput => {
-                        var totalAmount = $editAmountInput.val();
-                        /** Subtract 10 major units from amount. */
-                        $editAmountInput.val(Math.round(totalAmount - 10));
-                    });
-                }
-                /** Select authorized/captured transaction. */
-                cy.get('input[name=select_auth]').click();
-                cy.get('#edit-auth-capture').click();
+                /** Select capture transaction button. */
+                cy.get('a[href*="&edd-action=charge_paylike_preapproval"]').first().click();
                 break;
             case 'refund':
-                if (partialAmount) {
-                    /** Partial refund */
-                    cy.get('#edit-amount').clear().type(15);
-                } else {
-                    /** Total refund */
-                    cy.get('strong').contains('Order total').then($totalCapturedAmount => {
-                        var totalAmount = ($totalCapturedAmount.text()).replace(/[^0-9,.][a-z.]*/g, '');
-                        /** Subtract 10 major units from amount. */
-                        cy.get('#edit-amount').clear().type(Math.round(totalAmount - 10));
-                    });
-                }
-                /** Select authorized/captured transaction. */
-                cy.get('input[name=refund_transaction]').click();
-                cy.get('#edit-refund').click();
+                /** Select last order. */
+                cy.get('a[href*="&page=edd-payment-history&view=view-order-details"]').first().click();
+                cy.get('select[name="edd-payment-status"]').select('refunded');
+                cy.get('#edd_refund_in_paylike').check();
+                cy.get('input.button.button-primary.right').click();
                 break;
             case 'void':
-                if (partialAmount) {
-                    cy.get('#edit-amount').then($editAmountInput => {
-                        /**
-                         * Put 15 major units to be voided.
-                         * Premise: any product must have price >= 15.
-                         */
-                        $editAmountInput.val(15);
-                    });
-                }
-                /** Select authorized/captured transaction. */
-                cy.get('input[name=select_auth]').click();
-                cy.get('#edit-auth-void').click();
+                /** Select void transaction button. */
+                cy.get('a[href*="&edd-action=cancel_paylike_preapproval"]').first().click();
                 break;
         }
 
         /** Check if success message. */
-        cy.get('div.messages.messages--status').should('contain', 'successfully');
+        cy.get('div.notice.notice-success strong').should('contain', 'successfully');
     },
 
     /**
@@ -207,14 +148,18 @@ export var TestMethods = {
     changeShopCurrencyFromAdmin(currency) {
         it(`Change shop currency from admin to "${currency}"`, () => {
             /** Go to edit shop page. */
-            cy.goToPage(this.ShopAdminUrl);
+            cy.goToPage(this.ShopCurrencyAdminUrl);
+
+            /** Show select currency dropdown. */
+            cy.get("select[name*='edd_settings[currency]']").invoke('show');
+
+            /** Wait the select to show up. */
+            // cy.wait(500);
 
             /** Select currency & save. */
-            cy.get('.vertical-tabs__menu li:nth-child(3)').click();
+            cy.get('select[name*="edd_settings[currency]"]').select(currency);
 
-            cy.get('#edit-uc-currency-code').clear().type(currency);
-            cy.get('#edit-uc-currency-sign').clear().type(currency);
-            cy.get('#edit-submit').click();
+            cy.get('#submit').click();
         });
     },
 
@@ -222,18 +167,22 @@ export var TestMethods = {
      * Get Shop & Paylike versions and send log data.
      */
     logVersions() {
-        /** Go to Virtuemart config page. */
+        /** Go to plugins page. */
         cy.goToPage(this.ModulesAdminUrl);
 
         /** Get framework, shop and payment plugin version. */
-        cy.document().then($doc => {
-            var frameworkVersion = $doc.querySelectorAll('tr[data-drupal-selector*="edit-module"] .admin-requirements')[1].innerText
-            var shopVersion = $doc.querySelectorAll('tr[data-drupal-selector*="uc-store"] .admin-requirements')[1].innerText
-            var pluginVersion = $doc.querySelectorAll(`tr[data-drupal-selector*="uc-${this.PaylikeName}"] .admin-requirements`)[1].innerText
-
-            cy.wrap(frameworkVersion.replace('Version: ', '')).as('frameworkVersion');
-            cy.wrap(shopVersion.replace('Version: ', '')).as('shopVersion');
-            cy.wrap(pluginVersion.replace('Version: ', '')).as('pluginVersion');
+        cy.get('#footer-upgrade').then($footerVersion => {
+            var textVersion = $footerVersion.text();
+            var frameworkVersion = textVersion.replace('Version ', '');
+            cy.wrap(frameworkVersion).as('frameworkVersion');
+        });
+        cy.get('tr[data-plugin*="easy-digital-downloads"] .plugin-version-author-uri').then($shopVersion => {
+            var shopVersion = $shopVersion.text();
+            cy.wrap(shopVersion.replace(/[^0-9.]/g, '')).as('shopVersion');
+        });
+        cy.get(`tr[data-plugin*='${this.PaylikeName}']  .plugin-version-author-uri`).then($pluginVersion => {
+            var pluginVersion = $pluginVersion.text();
+            cy.wrap(pluginVersion.replace(/[^0-9.]/g, '')).as('pluginVersion');
         });
 
         /** Get global variables and make log data request to remote url. */
