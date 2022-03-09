@@ -72,7 +72,7 @@ export var TestMethods = {
         cy.goToPage(this.StoreUrl + '/downloads/a-sample-digital-download/');
 
         /** Purchase product. */
-        cy.get('a[data-action="edd_add_to_cart"]').click();
+        cy.get('a[data-action="edd_add_to_cart"]', {timeout: 8000}).click();
 
         /** Proceed to checkout. */
         cy.get('a.edd_go_to_checkout').click();
