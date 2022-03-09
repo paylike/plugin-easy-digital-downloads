@@ -24,6 +24,10 @@ workflows:
             - Run_QUICK_tests
           context:
             - paylike
+          #
+          # we override currencies to test, because some are not available in EDD
+          #
+          env: 'CYPRESS_ENV_CURRENCIES_TO_TEST=[USD,EUR,JPY,DKK]'
           spec: cypress/integration/full_test.js
           filters:
             branches:
