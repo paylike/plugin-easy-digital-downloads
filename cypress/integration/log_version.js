@@ -9,7 +9,7 @@ describe('paylike plugin version log remotely', () => {
      * Go to backend site admin
      */
     before(() => {
-        cy.goToPage(TestMethods.StoreUrl + '/user/login');
+        cy.goToPage(TestMethods.StoreUrl + '/wp-login.php');
         TestMethods.loginIntoAdminBackend();
     });
 
