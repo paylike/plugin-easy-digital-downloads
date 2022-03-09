@@ -3,7 +3,7 @@ Contributors: ionut.calara
 Tags: credit card, gateway, paylike, easy-digital-downloads, edd
 Requires at least: 4.4
 Tested up to: 5.8
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -91,8 +91,11 @@ To capture a preapproved payment use the buttons you will find in the payment hi
 
 == Changelog ==
 
+= 1.6.1 =
+Fix display plugin version in plugins page
+
 = 1.6.0 =
-Upgarded js SDK version from v3 to v10
+Upgraded js SDK version from v3 to v10
 Modified logic to work with v10
 
 = 1.5.1 =

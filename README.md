@@ -10,9 +10,6 @@ Released under the GPL V3 license: https://opensource.org/licenses/GPL-3.0
 
  [![Last succesfull test](https://log.derikon.ro/api/v1/log/read?tag=edd&view=svg&label=EDD&key=ecommerce&background=2794da)](https://log.derikon.ro/api/v1/log/read?tag=edd&view=html)
 
- Last Easy Digital Downloads version tested on: 2.11.3.1
- Wordpress version 5.8.2
-
  *The plugin has been tested with most versions of EDD at every iteration. We recommend using the latest version of Easy digital downloads, but if that is not possible for some reason, test the plugin with your EDD version and it would probably function properly.*
 
 ## Installation
