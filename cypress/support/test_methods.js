@@ -151,13 +151,10 @@ export var TestMethods = {
             cy.goToPage(this.ShopCurrencyAdminUrl);
 
             /** Show select currency dropdown. */
-            cy.get("select[name*='edd_settings[currency]']").invoke('show');
-
-            /** Wait the select to show up. */
-            // cy.wait(500);
+            cy.get("select[id*='edd_settings[currency]']").invoke('show');
 
             /** Select currency & save. */
-            cy.get('select[name*="edd_settings[currency]"]').select(currency);
+            cy.get("select[id*='edd_settings[currency]']").select(currency);
 
             cy.get('#submit').click();
         });
