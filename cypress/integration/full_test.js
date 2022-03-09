@@ -53,7 +53,7 @@ describe('paylike plugin full test', () => {
             /**
              * HARDCODED currency
              */
-            if ('DKK' == currency || 'JPY' == currency) {
+            if ('DKK' == currency) {
                 TestMethods.changeShopCurrencyFromAdmin(currency);
 
                 TestMethods.payWithSelectedCurrency(currency, 'capture');
