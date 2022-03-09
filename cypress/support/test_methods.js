@@ -153,6 +153,8 @@ export var TestMethods = {
             /** Show select currency dropdown. */
             cy.get("select[id*='edd_settings[currency]']").invoke('show');
 
+            cy.wait(500);
+
             /** Select currency & save. */
             cy.get("select[id*='edd_settings[currency]']").select(currency);
 
