@@ -150,13 +150,14 @@ export var TestMethods = {
             /** Go to edit shop page. */
             cy.goToPage(this.ShopCurrencyAdminUrl);
 
-            /** Show select currency dropdown. */
-            cy.get("select[id*='edd_settings[currency]']").invoke('show');
+            /** Wait to load the dom correctly. */
+            cy.wait(1500);
 
-            cy.wait(500);
+            /** Show select currency dropdown. */
+            cy.get('select[id*="edd_settings[currency]"]').invoke('show');
 
             /** Select currency & save. */
-            cy.get("select[id*='edd_settings[currency]']").select(currency);
+            cy.get('select[id*="edd_settings[currency]"]').select(currency);
 
             cy.get('#submit').click();
         });
@@ -171,8 +172,7 @@ export var TestMethods = {
 
         /** Get framework, shop and payment plugin version. */
         cy.get('#footer-upgrade').then($footerVersion => {
-            var textVersion = $footerVersion.text();
-            var frameworkVersion = textVersion.replace('Version ', '');
+            var frameworkVersion = ($footerVersion.text()).replace(/[^0-9.]/g, '');
             cy.wrap(frameworkVersion).as('frameworkVersion');
         });
         cy.get('tr[data-plugin*="easy-digital-downloads"] .plugin-version-author-uri').then($shopVersion => {
