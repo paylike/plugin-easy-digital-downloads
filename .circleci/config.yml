@@ -9,25 +9,25 @@ workflows:
     jobs:
       # "cypress" is the name of the imported orb
       # "run" is the name of the job defined in Cypress orb
-      - cypress/run:
-          name: Run_QUICK_tests
-          context:
-            - paylike
-          spec: cypress/integration/quick_test.js
-          filters:
-            branches:
-              only:
-                - cypress_tests
+      # - cypress/run:
+      #     name: Run_QUICK_tests
+      #     context:
+      #       - paylike
+      #     spec: cypress/integration/quick_test.js
+      #     filters:
+      #       branches:
+      #         only:
+      #           - cypress_tests
       - cypress/run:
           name: Run_FULL_tests
-          requires:
-            - Run_QUICK_tests
+          # requires:
+          #   - Run_QUICK_tests
           context:
             - paylike
           #
           # we override currencies to test, because some are not available in EDD
           #
-          env: 'CYPRESS_ENV_CURRENCIES_TO_TEST=[USD,EUR,JPY,DKK]'
+          env: 'ENV_CURRENCIES_TO_TEST=[JPY,DKK]'
           spec: cypress/integration/full_test.js
           filters:
             branches:
