@@ -17,7 +17,7 @@ workflows:
           filters:
             branches:
               only:
-                - cypress_tests
+                - master
       - cypress/run:
           name: Run_FULL_tests
           requires:
@@ -32,7 +32,7 @@ workflows:
           filters:
             branches:
               only:
-                - cypress_tests
+                - master
       # the following must run after all test passed
       # to show latest supported version in repository readme.md file
       - cypress/run:
@@ -45,4 +45,4 @@ workflows:
           filters:
             branches:
               only:
-                - cypress_tests
+                - master
