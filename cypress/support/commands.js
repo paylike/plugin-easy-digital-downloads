@@ -60,16 +60,6 @@
 });
 
 /**
- * Remove display:none from element
- * {String} elementSelector
- */
- Cypress.Commands.add('removeDisplayNoneFrom', (elementSelector) => {
-    cy.get(elementSelector).then(($selector) => {
-        $selector.attr('style', '{display: block}');
-    });
-});
-
-/**
  * Select an option containing part of string in its text body
  * {String} elementSelector
  * {String} optionTextPart
