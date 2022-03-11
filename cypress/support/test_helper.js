@@ -25,7 +25,6 @@ export let PaylikeTestHelper = {
         /** Get multiplier based on currency code. */
         var multiplier = PaylikeCurrencies.get_paylike_currency_multiplier(currency);
 
-        // return formattedAmount * multiplier;
         return Math.ceil(Math.round(formattedAmount * multiplier));
     },
 
