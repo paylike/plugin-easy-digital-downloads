@@ -167,14 +167,16 @@ export var TestMethods = {
      * Get Shop & Paylike versions and send log data.
      */
     logVersions() {
-        /** Go to plugins page. */
-        cy.goToPage(this.ModulesAdminUrl);
-
-        /** Get framework, shop and payment plugin version. */
-        cy.get('#footer-upgrade').then($footerVersion => {
+        /** Get framework version. */
+        cy.get('#wp-version').then($footerVersion => {
             var frameworkVersion = ($footerVersion.text()).replace(/[^0-9.]/g, '');
             cy.wrap(frameworkVersion).as('frameworkVersion');
         });
+
+        /** Go to plugins page. */
+        cy.goToPage(this.ModulesAdminUrl);
+
+        /** Get shop and payment plugin version. */
         cy.get('tr[data-plugin*="easy-digital-downloads"] .plugin-version-author-uri').then($shopVersion => {
             var shopVersion = $shopVersion.text();
             cy.wrap(shopVersion.replace(/[^0-9.]/g, '')).as('shopVersion');
@@ -189,16 +191,16 @@ export var TestMethods = {
             cy.get('@shopVersion').then(shopVersion => {
                 cy.get('@pluginVersion').then(pluginVersion => {
 
-                    cy.request('GET', this.RemoteVersionLogUrl, {
-                        key: shopVersion,
-                        tag: this.ShopName,
-                        view: 'html',
-                        framework: frameworkVersion,
-                        ecommerce: shopVersion,
-                        plugin: pluginVersion
-                    }).then((resp) => {
-                        expect(resp.status).to.eq(200);
-                    });
+                    // cy.request('GET', this.RemoteVersionLogUrl, {
+                    //     key: shopVersion,
+                    //     tag: this.ShopName,
+                    //     view: 'html',
+                    //     framework: frameworkVersion,
+                    //     ecommerce: shopVersion,
+                    //     plugin: pluginVersion
+                    // }).then((resp) => {
+                    //     expect(resp.status).to.eq(200);
+                    // });
                 });
             });
         });
