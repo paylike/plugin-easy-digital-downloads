@@ -311,7 +311,7 @@ function edd_paylike_handle_exceptions( $exception, $payment_id = 0, $context = 
 			$message = __( 'There has been a server issue! If this problem persists contact the developer.', 'edd-paylike' );
 			break;
 	}
-	$message       = __( 'Error: ', 'woocommerce-gateway-paylike' ) . $message;
+	$message       = __( 'Error: ', 'edd-paylike' ) . $message;
 	$error_message = edd_paylike_get_response_error( $exception->getJsonBody() );
 	if ( $context ) {
 		$message = $context . PHP_EOL . $message;

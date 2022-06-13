@@ -72,10 +72,10 @@ export var TestMethods = {
         cy.goToPage(this.StoreUrl + '/downloads/a-sample-digital-download/');
 
         /** Purchase product. */
-        cy.get('a[data-action="edd_add_to_cart"]', {timeout: 8000}).click();
+        cy.get('a[data-action="edd_add_to_cart"]', {timeout: 10000}).click();
 
         /** Proceed to checkout. */
-        cy.get('a.edd_go_to_checkout').click();
+        cy.get('a.edd_go_to_checkout', {timeout: 10000}).click();
 
         cy.wait(1000);
 
@@ -96,7 +96,7 @@ export var TestMethods = {
          */
          PaylikeTestHelper.fillAndSubmitPaylikePopup();
 
-        cy.get('.entry-content > p', {timeout: 8000}).should('be.visible').contains('Thank you for your purchase!');
+        cy.get('.entry-content > p', {timeout: 10000}).should('be.visible').contains('Thank you for your purchase!');
     },
 
     /**

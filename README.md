@@ -1,4 +1,4 @@
-# Easy Digital Downloads plugin for Paylike [![Build Status](https://travis-ci.org/paylike/plugin-easy-digital-downloads.svg?branch=master)](https://travis-ci.org/paylike/plugin-easy-digital-downloads)
+# Easy Digital Downloads plugin for Paylike
 
 This plugin is *not* developed or maintained by Paylike but kindly made
 available by a user.
@@ -25,7 +25,7 @@ Released under the GPL V3 license: https://opensource.org/licenses/GPL-3.0
 
 ## Updating settings
 
-Under the Easy Digital Downloads paylike settings, you can:
+Under the Easy Digital Downloads Paylike settings, you can:
  * Update the payment method text in the payment gateways list
  * Update the title that shows up in the payment popup
  * Add test/live keys

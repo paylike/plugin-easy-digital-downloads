@@ -19,11 +19,14 @@ function edd_paylike_js( $override = false ) {
 		}
 		if ( ( edd_is_checkout() || $override ) ) {
 			wp_enqueue_style( 'edd-paylike-css', EDD_PAYLIKE_PLUGIN_URL . 'edd-paylike.css' );
-			wp_enqueue_script( 'paylike-js', 'https://sdk.paylike.io/10.js', '', '3.0', true );
+			wp_enqueue_script( 'paylike-js', 'https://sdk.paylike.io/10.js', '', null, true );
 			wp_enqueue_script( 'edd-paylike-js', EDD_PAYLIKE_PLUGIN_URL . 'edd-paylike.js', array(
 				'jquery',
 				'paylike-js'
 			), EDD_PAYLIKE_VERSION );
+
+            wp_enqueue_script( 'edd-pay-embedded', EDD_PAYLIKE_PLUGIN_URL . 'edd-pay-embedded.js', '', null, true );
+
 			/* retrieving data about current format */
 			$currency   = edd_get_currency();
 			$manager    = new \Paylike\Data\Currencies();
