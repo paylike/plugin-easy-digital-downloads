@@ -1,9 +1,9 @@
 ( function( $, window, document, undefined ) {
 	'use strict';
 
-	var edd_global_vars;
 	var checkout_modal_shown = false;
 	var eddPaylike = {};
+	window.paylikeVars = edd_paylike_vars;
 
 	// Closure
 	( function() {
@@ -76,9 +76,13 @@
 		amount = Math.ceil( amount * edd_paylike_vars.multiplier );
 
 		var args = {
+			test: ('test' == edd_paylike_vars.test_mode) ? (true) : (false),
 			title: edd_paylike_vars.store_name,
-			currency: edd_paylike_vars.currency,
-			amount: amount,
+			amount: {
+				currency: edd_paylike_vars.currency,
+				exponent: Number(edd_paylike_vars.exponent),
+				value: amount
+			},
 			locale: edd_paylike_vars.locale,
 			description: edd_paylike_vars.payment_description,
 			custom: {
@@ -93,8 +97,8 @@
 					name: 'WordPress',
 					version: edd_paylike_vars.platform_version,
 				},
-				ecommerce: {
-					name: 'Easy Digital Downloads',
+				ecommerce: 'Easy Digital Downloads',
+				paylike_plugin: {
 					version: edd_paylike_vars.version
 				}
 			}
@@ -108,132 +112,14 @@
 		return args;
 	}
 
-	function edd_paylike_handle_tds( tds ) {
-		var $form = ce( 'form', {
-			method: 'POST',
-			target: 'tds-paylike',
-			action: tds.url,
-		} );
-
-		$form.appendChild( ce( 'input', {
-			type: 'hidden',
-			name: 'PaReq',
-			value: tds.pareq,
-		} ) );
-
-		$form.appendChild( ce( 'input', {
-			type: 'hidden',
-			name: 'TermUrl',
-			value: 'https://gateway.paylike.io/acs-response',
-		} ) );
-
-		$form.appendChild( ce( 'input', {
-			type: 'hidden',
-			name: 'MD',
-			value: tds.oid,
-		} ) );
-
-		document.body.appendChild( $form );
-
-		$form.submit();
-
-		function ce( tag, opts ) {
-			var $ = document.createElement( tag );
-
-			Object.keys( opts ).forEach( function( key ) {
-				$[ key ] = opts[ key ];
-			} );
-
-			return $;
-		}
-
-		window.addEventListener( 'message', function( e ) {
-			var pares = e.data && e.data.pares;
-
-
-			if ( pares ) {
-				eddPaylike.pares = pares;
-				edd_paylike_process_card();
-			}
-		} );
-	}
-
-	function edd_paylike_response_handler( err, res ) {
-
-		if ( err ) {
-
-			if ( err.code === 30 ) {
-				$( '.tds-wrapper' ).show();
-				$( '#edd_cc_fields' ).hide();
-				edd_paylike_handle_tds( err.tds );
-			} else {
-				// re-enable the submit button
-				$( '#edd_purchase_form #edd-purchase-button, #edd_profile_editor_form #edd_profile_editor_submit' ).attr( "disabled", false );
-
-				var error = '<div class="edd_errors"><p class="edd_error">' + err.message || err + '</p></div>';
-
-				// show the errors on the form
-				$( '#edd-paylike-payment-errors' ).html( error );
-
-				$( '.edd-cart-ajax' ).hide();
-				if ( edd_global_vars.complete_purchase )
-					$( '#edd-purchase-button' ).val( edd_global_vars.complete_purchase );
-				else
-					$( '#edd-purchase-button' ).val( 'Purchase' );
-			}
-
-		} else {
-			var form$ = $( "#edd_purchase_form, #edd_profile_editor_form" );
-
-			var trxid = res.transaction.id;
-			form$.append( "<input type='hidden' name='edd_paylike_token' value='" + trxid + "' />" );
-
-			// and submit
-			form$.get( 0 ).submit();
-		}
-	}
-
-	function edd_paylike_get_form() {
-		var $form = $( 'form#edd_purchase_form' );
-		$form = $form.length ? $form : $( 'form#edd_profile_editor_form' );
-
-		return $form;
-	}
-
-	function edd_paylike_process_card() {
-		var paylike = Paylike( edd_paylike_vars.publishable_key ),
-			args = edd_paylike_get_args(),
-			$form = edd_paylike_get_form();
-
-		// disable the submit button to prevent repeated clicks
-		$( '#edd_purchase_form #edd-purchase-button, #edd_profile_editor_form #edd_profile_editor_submit' ).attr( 'disabled', 'disabled' );
-		console.log( args );
-		paylike.pay( $form[ 0 ], args, edd_paylike_response_handler );
-		return false; // submit from callback
-	}
-
 	// ======================================================
 	// Document ready event
 	// ======================================================
 	$( document ).ready( function() {
 		var $body = $( 'body' );
 
-		var $paylikeInput = $( 'input[name="edd-gateway"]' );
-		var $cardInput = $( 'input.card-number' );
-		// when we only have a single active gateway, the 'edd_gateway_loaded' is not getting triggered
-		if ( $( 'input[name="edd-gateway"]' ).val() == 'paylike' && $cardInput.length > 0 ) {
-			Paylike.assistNumber( $( 'input.card-number' )[ 0 ] );
-			Paylike.assistExpiry( $( 'input.card-expiry' )[ 0 ] );
-		}
-		// enable input helper functionality
-		$body.on( 'edd_gateway_loaded', function( event, payment_mode ) {
-			if ( payment_mode === 'paylike' && $cardInput.length > 0 ) {
-				Paylike.assistNumber( $( 'input.card-number' )[ 0 ] );
-				Paylike.assistExpiry( $( 'input.card-expiry' )[ 0 ] );
-			}
-		} );
-
 		set_window_amount();
+
 		// non ajaxed
 		$body.on( 'click', '#edd_purchase_form input[type="submit"], #edd_profile_editor_form input[type="submit"]', function( event ) {
 
@@ -268,10 +154,10 @@
 
 					checkout_modal_shown = true;
 
-					var paylike = Paylike( edd_paylike_vars.publishable_key );
+					var paylike = Paylike( {key: edd_paylike_vars.publishable_key} );
 					var args = edd_paylike_get_args();
 
-					paylike.popup( args,
+					paylike.pay( args,
 						function( err, res ) {
 							var $purchaseBtn = jQuery( '#edd-purchase-button' );
 							// we need to close no matter what.
@@ -301,13 +187,10 @@
 						}
 					);
 				} else {
-					edd_paylike_process_card();
+					window.paylike_process_embedded_form();
 				}
 			}
 		} );
 	} );
 
 } )( jQuery, window, document );
-
-
-

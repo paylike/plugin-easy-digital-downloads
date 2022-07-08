@@ -2,8 +2,8 @@
 Contributors: ionut.calara
 Tags: credit card, gateway, paylike, easy-digital-downloads, edd
 Requires at least: 4.4
-Tested up to: 5.3
-Stable tag: 1.5.1
+Tested up to: 5.8
+Stable tag: 1.6.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -61,12 +61,12 @@ Once you have installed Easy Digital Downloads on your Wordpress setup, follow t
 Signup at (paylike.io) [https://paylike.io] (it’s free)
 
 1. Create a live account
-1. Create an app key for your WooCommerce website
-1. Upload the plugin files to the `/wp-content/plugins/payment-gateway-via-paylike-for-easy-digital-downloads` directory, or install the plugin through the WordPress plugins screen directly.
+1. Create an app key for your website store
+1. Upload the plugin files to the `/wp-content/plugins/edd-paylike` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress.
 1. Insert the app key and your public key in the Gateway settings for the Paylike payment plugin
 
-Start earning revenue on your WooCommerce website!
+Start earning revenue on your website store!
 When you have the first transaction the team at Paylike will reach out to you for some additional details (required by financial regulations) so we can payout your profits.
 If you expect to have a volume higher than EUR 40.000 / month, reach out for volume pricing.
 
@@ -90,6 +90,16 @@ To capture a preapproved payment use the buttons you will find in the payment hi
 4. Payment screen via popup
 
 == Changelog ==
+
+= 1.6.2 =
+Fix pay possibility from edd embedded form
+
+= 1.6.1 =
+Fix display plugin version in plugins page
+
+= 1.6.0 =
+Upgraded js SDK version from v3 to v10
+Modified logic to work with v10
 
 = 1.5.1 =
 Remove placeholders from card form

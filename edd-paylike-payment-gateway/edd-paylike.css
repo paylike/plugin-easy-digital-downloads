@@ -15,3 +15,8 @@ div.tds-iframe iframe {
     height: 39em;
     overflow: hidden
 }
+
+.edd_error {
+    border: 1px solid red;
+    background-color: #edcaca;
+}

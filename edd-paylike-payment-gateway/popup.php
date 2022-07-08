@@ -19,17 +19,21 @@ function edd_paylike_js( $override = false ) {
 		}
 		if ( ( edd_is_checkout() || $override ) ) {
 			wp_enqueue_style( 'edd-paylike-css', EDD_PAYLIKE_PLUGIN_URL . 'edd-paylike.css' );
-			wp_enqueue_script( 'paylike-js', 'https://sdk.paylike.io/3.js', '', '3.0', true );
+			wp_enqueue_script( 'paylike-js', 'https://sdk.paylike.io/10.js', '', null, true );
 			wp_enqueue_script( 'edd-paylike-js', EDD_PAYLIKE_PLUGIN_URL . 'edd-paylike.js', array(
 				'jquery',
 				'paylike-js'
 			), EDD_PAYLIKE_VERSION );
+
+            wp_enqueue_script( 'edd-pay-embedded', EDD_PAYLIKE_PLUGIN_URL . 'edd-pay-embedded.js', '', null, true );
+
 			/* retrieving data about current format */
 			$currency   = edd_get_currency();
 			$manager    = new \Paylike\Data\Currencies();
 			$multiplier = $manager->getPaylikeMultiplier( $currency );
 
 			$paylike_vars = apply_filters( 'edd_paylike_js_vars', array(
+				'test_mode'           => (edd_is_test_mode()) ? ('test') : ('live'),
 				'publishable_key'     => trim( $publishable_key ),
 				'is_ajaxed'           => edd_is_ajax_enabled() ? 'true' : 'false',
 				'is_zero_decimal'     => edd_paylike_is_zero_decimal_currency() ? 'true' : 'false',
@@ -40,6 +44,7 @@ function edd_paylike_js( $override = false ) {
 				'error_prefix'        => __( 'The following error occurred: ', 'edd-paylike' ),
 				'payment_description' => edd_paylike_get_cart_description(),
 				'currency'            => $currency,
+				'exponent'            => $manager->all()[$currency]['exponent'],
 				'multiplier'          => $multiplier,
 				'locale'              => get_locale(),
 				//'orderId'             => '',
@@ -167,12 +172,16 @@ function edd_paylike_get_link_form_script( $download_id, $email ) {
                     amount = <?php echo edd_paylike_get_minor_amount( edd_get_download_price( $download_id ) );  ?>;
                 }
 
-                var paylike = Paylike(edd_paylike_vars.publishable_key);
+                var paylike = Paylike({key: edd_paylike_vars.publishable_key});
 
                 var args = {
+                    test: ('test' == edd_paylike_vars.test_mode) ? (true) : (false),
                     title: edd_paylike_vars.store_name,
-                    currency: edd_paylike_vars.currency,
-                    amount: amount,
+                    amount: {
+                        currency: edd_paylike_vars.currency,
+                        exponent: Number(edd_paylike_vars.exponent),
+                        value: amount
+                    },
                     locale: edd_paylike_vars.locale,
                     description: edd_paylike_vars.payment_description,
                     custom: {
@@ -187,11 +196,13 @@ function edd_paylike_get_link_form_script( $download_id, $email ) {
                         platform: edd_paylike_vars.platform,
                         platform_version: edd_paylike_vars.platform_version,
                         ecommerce: edd_paylike_vars.ecommerce,
-                        version: edd_paylike_vars.version
+                        paylike_plugin: {
+                            version: edd_paylike_vars.version
+                        }
                     }
                 };
 
-                paylike.popup(args,
+                paylike.pay(args,
                     function (err, res) {
                         form.find('.edd-add-to-cart').removeAttr('data-edd-loading');
                         form.find('.edd-add-to-cart-label').text(label).show();
