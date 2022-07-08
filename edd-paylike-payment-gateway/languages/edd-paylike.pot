@@ -1,253 +1,313 @@
-#: edd-paylike.php:15
+# Copyright (C) 2022 Derikon Development
+# This file is distributed under the same license as the Easy Digital Downloads - Paylike Payment Gateway plugin.
 msgid ""
-"Your version of PHP is below the minimum version of PHP required by Easy "
-"Digital Downloads - Paylike Payment Gateway. Please contact your host and "
-"request that your version be upgraded to 5.3.3 or later."
+msgstr ""
+"Project-Id-Version: Easy Digital Downloads - Paylike Payment Gateway 1.6.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/edd-paylike-payment-gateway\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-07-08T08:21:32+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: edd-paylike\n"
+
+#. Plugin Name of the plugin
+msgid "Easy Digital Downloads - Paylike Payment Gateway"
 msgstr ""
 
-#: edd-paylike.php:75 paylike.php:181 paylike.php:182
+#. Description of the plugin
+msgid "Allow customers to pay with credit cards via the Paylike gateway in your Easy Digital Downloads store."
+msgstr ""
+
+#. Author of the plugin
+msgid "Derikon Development"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://derikon.com/"
+msgstr ""
+
+#: edd-paylike.php:15
+msgid "Your version of PHP is below the minimum version of PHP required by Easy Digital Downloads - Paylike Payment Gateway. Please contact your host and request that your version be upgraded to 5.3.3 or later."
+msgstr ""
+
+#: edd-paylike.php:75
+#: settings.php:88
+#: settings.php:89
 msgid "Credit Card"
 msgstr ""
 
-#: edd-paylike.php:127
-msgid "Credit Card Info"
+#: edd-paylike.php:128
+msgid "Credit card"
 msgstr ""
 
-#: edd-paylike.php:135
+#: edd-paylike.php:137
 msgid "This is a secure SSL encrypted payment."
 msgstr ""
 
-#: edd-paylike.php:140
+#: edd-paylike.php:142
 msgid "Card Number"
 msgstr ""
 
-#: edd-paylike.php:144
+#: edd-paylike.php:146
 msgid "The (typically) 16 digits on the front of your credit card."
 msgstr ""
 
-#: edd-paylike.php:149
+#: edd-paylike.php:153
 msgid "CVC"
 msgstr ""
 
-#: edd-paylike.php:152
+#: edd-paylike.php:156
 msgid "The 3 digit (back) or 4 digit (front) value on your card."
 msgstr ""
 
-#: edd-paylike.php:158
+#: edd-paylike.php:163
 msgid "Expiration (MM/YY)"
 msgstr ""
 
-#: edd-paylike.php:161
+#: edd-paylike.php:166
 msgid "The date your credit card expires, typically on the front of the card."
 msgstr ""
 
-#: paylike.php:19
+#: edd-paylike.php:176
+msgid "The transaction requires 3-D Secure"
+msgstr ""
+
+#: helpers.php:293
+msgid "Transaction not found! Check the transaction key used for the operation."
+msgstr ""
+
+#: helpers.php:296
+msgid "The request is not valid! Check if there is any validation bellow this message and adjust if possible, if not, and the problem persists, contact the developer."
+msgstr ""
+
+#: helpers.php:299
+msgid "The operation is not allowed! You do not have the rights to perform the operation, make sure you have all the grants required on your Paylike account."
+msgstr ""
+
+#: helpers.php:302
+msgid "The operation is not properly authorized! Check the credentials set in settings for Paylike."
+msgstr ""
+
+#: helpers.php:305
+msgid "The operation leads to a conflict! The same transaction is being requested for modification at the same time. Try again later."
+msgstr ""
+
+#: helpers.php:308
+msgid "Network issues ! Check your connection and try again."
+msgstr ""
+
+#: helpers.php:311
+msgid "There has been a server issue! If this problem persists contact the developer."
+msgstr ""
+
+#: paylike.php:21
 msgid "Missing Paylike token. Please contact support."
 msgstr ""
 
-#: paylike.php:20
+#: paylike.php:22
 msgid "Missing Paylike Token"
 msgstr ""
 
-#: paylike.php:20
-msgid ""
-"A Paylike token failed to be generated. Please check Paylike logs for more "
-"information"
+#: paylike.php:22
+msgid "A Paylike token failed to be generated. Please check Paylike logs for more information"
 msgstr ""
 
-#: paylike.php:56
+#: paylike.php:53
 msgid "Fetching Transaction Failed"
 msgstr ""
 
-#: paylike.php:56
-#, php-format
+#: paylike.php:53
 msgid ""
-"Fetching transaction failed while processing a preapproved only payment. \n"
+"Fetching transaction failed while processing a  payment. \n"
 "Payment Data: %s \n"
 "Error: %s"
 msgstr ""
 
-#: paylike.php:75
+#: paylike.php:79
 msgid "Capturing Transaction Failed"
 msgstr ""
 
-#: paylike.php:75
-#, php-format
+#: paylike.php:79
 msgid ""
 "Capturing transaction failed while processing a payment.\n"
 "Payment Data: %s \n"
 "Error: %s"
 msgstr ""
 
-#: paylike.php:81
-msgid ""
-"Your payment could not be recorded, please contact the site administrator."
+#: paylike.php:108
+msgid "Your payment could not be recorded, please contact the site administrator."
 msgstr ""
 
-#: paylike.php:83
+#: paylike.php:110
 msgid "Card Processing Error"
 msgstr ""
 
-#: paylike.php:101
-msgid "Paylike"
+#: paylike.php:139
+#: paylike.php:268
+msgid "Captured Preapproved Transaction Successful"
 msgstr ""
 
-#: paylike.php:117
-msgid "Paylike Settings"
+#: paylike.php:215
+msgid "The order was cancelled, but the transaction could not be voided in Paylike."
 msgstr ""
 
-#: paylike.php:118
-msgid "Configure the Paylike settings"
-msgstr ""
-
-#: paylike.php:123
-msgid "Test mode Public Key"
-msgstr ""
-
-#: paylike.php:124 paylike.php:131 paylike.php:138 paylike.php:145
-msgid "Get it from your Paylike dashboard"
-msgstr ""
-
-#: paylike.php:130
-msgid "Test mode App Key"
-msgstr ""
-
-#: paylike.php:137
-msgid "Live mode Public Key"
-msgstr ""
-
-#: paylike.php:144
-msgid "Live mode App Key"
-msgstr ""
-
-#: paylike.php:151
-msgid "Preapprove Only?"
-msgstr ""
-
-#: paylike.php:152
-msgid ""
-"Check this if you would like to preapprove payments but not charge until a "
-"later date."
-msgstr ""
-
-#: paylike.php:157
-msgid "Paylike Modal Options"
-msgstr ""
-
-#: paylike.php:162
-msgid "Disable Paylike Popup"
-msgstr ""
-
-#: paylike.php:163
-msgid ""
-"Check this if you would like to disable the Paylike popup window on the main checkout screen and use the embedded form."
-msgstr ""
-
-#: paylike.php:168
-msgid "Payment popup title"
-msgstr ""
-
-#: paylike.php:169
-msgid "The text shown in the popup where the customer inserts the card details"
-msgstr ""
-
-#: paylike.php:177
-msgid "Payment method title"
-msgstr ""
-
-#: paylike.php:197
-msgid "Preapproved"
-msgstr ""
-
-#: paylike.php:198 paylike.php:230
-msgid "Cancelled"
-msgstr ""
-
-#: paylike.php:212
-msgid "Preapproval"
-msgstr ""
-
-#: paylike.php:229
-msgid "Preapproval Pending"
-msgstr ""
-
-#: paylike.php:261
-msgid "Process Payment"
-msgstr ""
-
-#: paylike.php:262
-msgid "Cancel Preapproval"
-msgstr ""
-
-#: paylike.php:326
-msgid ""
-"The order was cancelled, but the transaction could not be voided in Paylike."
-msgstr ""
-
-#: paylike.php:327
+#: paylike.php:216
 msgid "Transaction Void Failed"
 msgstr ""
 
-#: paylike.php:327 paylike.php:374
-#, php-format
+#: paylike.php:216
+#: paylike.php:277
 msgid ""
 "\n"
 "Error: %s"
 msgstr ""
 
-#: paylike.php:330
+#: paylike.php:219
 msgid "Preapproval cancelled"
 msgstr ""
 
-#: paylike.php:366
-msgid "Captured Preapproved Transaction Successful"
-msgstr ""
-
-#: paylike.php:373 paylike.php:374
+#: paylike.php:276
+#: paylike.php:277
 msgid "Capturing Preapproved Transaction Failed"
 msgstr ""
 
-#: paylike.php:387
+#: paylike.php:296
 msgid "The preapproved payment was successfully charged."
 msgstr ""
 
-#: paylike.php:390
-msgid ""
-"The preapproved payment failed to be charged. View order details for further "
-"details."
+#: paylike.php:299
+msgid "The preapproved payment failed to be charged. View order details for further details."
 msgstr ""
 
-#: paylike.php:393
+#: paylike.php:302
+msgid "The preapproved payment couldn't be canceled. View order details for further details."
+msgstr ""
+
+#: paylike.php:305
 msgid "The preapproved payment was successfully cancelled."
 msgstr ""
 
-#: paylike.php:428
-msgid "Next"
-msgstr ""
-
-#: paylike.php:429
-msgid ""
-"The Paylike Public Key is missing. Insert it in Settings -> Payment Gateways "
-"-> Paylike"
-msgstr ""
-
-#: paylike.php:430
-msgid "The following error occurred: "
-msgstr ""
-
-#: paylike.php:471
-msgid "Refund Charge in Paylike"
-msgstr ""
-
-#: paylike.php:524
+#: paylike.php:350
 msgid "Transaction refunded in Paylike"
 msgstr ""
 
-#: paylike.php:526 paylike.php:527
+#: paylike.php:352
+#: paylike.php:353
 msgid "Refunding transaction in Paylike failed"
 msgstr ""
 
-#: paylike.php:527
-#, php-format
+#: paylike.php:353
 msgid "Error: %s"
+msgstr ""
+
+#: popup.php:39
+msgid "Next"
+msgstr ""
+
+#: popup.php:40
+msgid "The Paylike Public Key is missing. Insert it in Settings -> Payment Gateways -> Paylike"
+msgstr ""
+
+#: popup.php:41
+msgid "The following error occurred: "
+msgstr ""
+
+#: popup.php:84
+msgid "Refund Transaction in Paylike"
+msgstr ""
+
+#: settings.php:8
+msgid "Paylike"
+msgstr ""
+
+#: settings.php:24
+msgid "Paylike Settings"
+msgstr ""
+
+#: settings.php:25
+msgid "Configure the Paylike settings"
+msgstr ""
+
+#: settings.php:30
+msgid "Test mode Public Key"
+msgstr ""
+
+#: settings.php:31
+#: settings.php:38
+#: settings.php:45
+#: settings.php:52
+msgid "Get it from your Paylike dashboard"
+msgstr ""
+
+#: settings.php:37
+msgid "Test mode App Key"
+msgstr ""
+
+#: settings.php:44
+msgid "Live mode Public Key"
+msgstr ""
+
+#: settings.php:51
+msgid "Live mode App Key"
+msgstr ""
+
+#: settings.php:58
+msgid "Preapprove Only?"
+msgstr ""
+
+#: settings.php:59
+msgid "Check this if you would like to preapprove payments but not charge until a later date.<br/> To capture a preapproved payment use the buttons you will find in the payment history for all approval pending orders.<br/> The buttons are located in the \"Preapproval\" column."
+msgstr ""
+
+#: settings.php:64
+msgid "Paylike checkout mode"
+msgstr ""
+
+#: settings.php:69
+msgid "Disable Paylike Popup"
+msgstr ""
+
+#: settings.php:70
+msgid "Check this if you would like to disable the Paylike popup window on the main checkout screen and use the embedded form."
+msgstr ""
+
+#: settings.php:75
+msgid "Payment popup title"
+msgstr ""
+
+#: settings.php:76
+msgid "The text shown in the popup where the customer inserts the card details"
+msgstr ""
+
+#: settings.php:84
+msgid "Payment method title"
+msgstr ""
+
+#: settings.php:104
+msgid "Preapproved"
+msgstr ""
+
+#: settings.php:105
+#: settings.php:136
+msgid "Cancelled"
+msgstr ""
+
+#: settings.php:118
+msgid "Preapproval"
+msgstr ""
+
+#: settings.php:135
+msgid "Preapproval Pending"
+msgstr ""
+
+#: settings.php:167
+msgid "Process Payment"
+msgstr ""
+
+#: settings.php:168
+msgid "Cancel Preapproval"
 msgstr ""
