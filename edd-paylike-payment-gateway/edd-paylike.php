@@ -144,7 +144,7 @@ function edd_paylike_credit_card_form( $echo = true ) {
 				<span class="card-type"></span>
 			</label>
 			<span class="edd-description"><?php _e( 'The (typically) 16 digits on the front of your credit card.', 'edd-paylike' ); ?></span>
-			<input type="text" pattern="[0-9]{4}  [0-9]{4}  [0-9]{4}  .*" id="card_number"
+			<input type="text" pattern="[0-9]{4} [0-9]{4} [0-9]{4} .*" id="card_number"
 					class="card-number edd-input required" value="" placeholder="0000 0000 0000 0000"
 					required/>
 		</p>
@@ -165,8 +165,8 @@ function edd_paylike_credit_card_form( $echo = true ) {
 			</label>
 			<span class="edd-description"><?php _e( 'The date your credit card expires, typically on the front of the card.', 'edd-paylike' ); ?></span>
 			<input type="text" id="card-expiry" value="" class="card-expiry edd-input required"
-					placeholder="MM  /  YY"
-					pattern="[0-9]{2}  /  ([0-9]{2}|[0-9]{4})" required/>
+					placeholder="MM/YY"
+					pattern="[0-9]{2}/([0-9]{2}|[0-9]{4})" required/>
 		</p>
 		<?php do_action( 'edd_paylike_after_cc_expiration' ); ?>
 
