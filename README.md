@@ -36,9 +36,9 @@ Under the Easy Digital Downloads Paylike settings, you can:
 
  There are three transaction operations which you can do:
 1. Capture
-    - in order to capture a preapproved payment, you can click **"Process Preapproved"** on the payment history page for that specific order in the WordPress admin.
+    - in order to capture a preapproved payment, you can click **"Process Preapproved"** on the **`Payment history (Orders)`** page for that specific order in the WordPress admin.
 2. Void
-    - the only way we void a transaction is when this is preapproved, but not "captured". the button for **"Cancel Preapproval"** is on **`Payment history`** page.
+    - the only way we void a transaction is when this is preapproved, but not "captured". the button for **"Cancel Preapproval"** is on **`Payment history (Orders)`** page.
 3. Refund
     - in order to refund, you need to have a order with the status "Completed", move it to "Refunded", check the option that appears below "Refund in Paylike", and click update.
 
