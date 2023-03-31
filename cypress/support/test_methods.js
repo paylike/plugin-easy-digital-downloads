@@ -72,7 +72,8 @@ export var TestMethods = {
         cy.goToPage(this.StoreUrl + '/downloads/a-sample-digital-download/');
 
         /** Purchase product. */
-        cy.get('a[data-action="edd_add_to_cart"]', {timeout: 10000}).click();
+        // cy.get('a[data-action="edd_add_to_cart"]', {timeout: 10000}).click();
+        cy.get('button[data-action="edd_add_to_cart"]', {timeout: 10000}).click();
 
         /** Proceed to checkout. */
         cy.get('a.edd_go_to_checkout', {timeout: 10000}).click();
@@ -139,7 +140,11 @@ export var TestMethods = {
         }
 
         /** Check if success message. */
-        cy.get('div.notice.notice-success strong').should('contain', 'successfully');
+        if ('refund' === paylikeAction) {
+            cy.get('div.notice.updated p').should('contain', 'successfully');
+        } else {
+            cy.get('div.notice.notice-success strong').should('contain', 'successfully');
+        }
     },
 
     /**
@@ -155,6 +160,7 @@ export var TestMethods = {
 
             /** Show select currency dropdown. */
             cy.get('select[id*="edd_settings[currency]"]').invoke('show');
+            PaylikeTestHelper.setPositionRelativeOn('select[id*="edd_settings[currency]"]');
 
             /** Select currency & save. */
             cy.get('select[id*="edd_settings[currency]"]').select(currency);

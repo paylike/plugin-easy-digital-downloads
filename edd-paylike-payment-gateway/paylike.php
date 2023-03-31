@@ -199,7 +199,7 @@ function edd_paylike_process_preapproved_cancel() {
 	if ( empty( $transaction_id ) || empty( $payment_id ) || $captured_already || $cancelled_already ) {
 		return;
 	}
-	if ( 'preapproval' !== get_post_status( $payment_id ) ) {
+	if ( 'preapproval' !== edd_get_payment_status( $payment_id ) ) {
 		return;
 	}
 	$amount     = edd_paylike_get_minor_amount_from_payment( $payment_id );
@@ -251,7 +251,7 @@ function edd_paylike_charge_preapproved( $payment_id = 0 ) {
 	if ( empty( $transaction_id ) || empty( $payment_id ) || $captured_already ) {
 		return;
 	}
-	if ( 'preapproval' !== get_post_status( $payment_id ) ) {
+	if ( 'preapproval' !== edd_get_payment_status( $payment_id ) ) {
 		return;
 	}
 	$secret_key = edd_is_test_mode() ? trim( $edd_options['paylike_test_secret_key'] ) : trim( $edd_options['paylike_live_secret_key'] );
@@ -385,4 +385,3 @@ function edd_paylike_get_response_error( $response ) {
 
 	return $error_message;
 }
-

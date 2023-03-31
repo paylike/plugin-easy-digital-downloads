@@ -146,7 +146,7 @@ add_filter( 'edd_payments_table_views', 'edd_paylike_payment_status_filters' );
  */
 function edd_paylike_payments_column_data( $value, $payment_id, $column_name ) {
 	if ( $column_name == 'preapproval' ) {
-		$status           = get_post_status( $payment_id );
+		$status           = edd_get_payment_status( $payment_id );
 		$transaction_id   = edd_get_payment_transaction_id( $payment_id );
 		$captured_already = get_post_meta( $payment_id, '_edd_paylike_captured', true );
 		if ( ! $transaction_id || $captured_already ) {
