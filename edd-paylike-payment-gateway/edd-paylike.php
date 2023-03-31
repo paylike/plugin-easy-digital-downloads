@@ -5,7 +5,7 @@ Plugin URL: https://wordpress.org/plugins/edd-paylike-payment-gateway/
 Description: Allow customers to pay with credit cards via the Paylike gateway in your Easy Digital Downloads store.
 Author: Derikon Development
 Author URI: https://derikon.com/
-Version: 1.6.2
+Version: 1.7.0
 Text Domain: edd-paylike
 Domain Path: languages
 */
@@ -23,7 +23,7 @@ if ( ! defined( 'EDD_PAYLIKE_PLUGIN_DIR' ) ) {
 if ( ! defined( 'EDD_PAYLIKE_PLUGIN_URL' ) ) {
 	define( 'EDD_PAYLIKE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
-define( 'EDD_PAYLIKE_VERSION', '1.6.2' );
+define( 'EDD_PAYLIKE_VERSION', '1.7.0' );
 /**
  * Plugin activation
  * @access      public

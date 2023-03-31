@@ -2,8 +2,8 @@
 Contributors: ionut.calara
 Tags: credit card, gateway, paylike, easy-digital-downloads, edd
 Requires at least: 4.4
-Tested up to: 5.8
-Stable tag: 1.6.2
+Tested up to: 6.1.2
+Stable tag: 1.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -90,6 +90,9 @@ To capture a preapproved payment use the buttons you will find in the payment hi
 4. Payment screen via popup
 
 == Changelog ==
+
+= 1.7.0 =
+Update compatibility
 
 = 1.6.2 =
 Fix pay possibility from edd embedded form
